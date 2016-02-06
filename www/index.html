@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<!--<html>
+    <head>
+        &lt;!&ndash;
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        &ndash;&gt;
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>
+        <li class="table-view-cell media">
+            <a hre="#" class="push-right add-location-btn">
+                <span class="media-object pull-left"></span>
+                <div class="media-body">
+                    Add location
+                </div>
+            </a>
+        </li>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>-->
+
+<html>
+<head>
+    <title>Device Properties Example</title>
+    <meta charset="utf-8">
+  <title>JS Bin</title>
+  <script src="//www.chartjs.org/assets/Chart.min.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    // Wait for device API libraries to load
+    //
+     
+var myLiveChart;
+    document.addEventListener("deviceready", onDeviceReady, false);
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        var canvas = document.getElementById('updating-chart'),
+    ctx = canvas.getContext('2d'),
+    startingData = {
+      labels: [1],
+      datasets: [
+          {
+              fillColor: "rgba(151,187,205,0.2)",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              data: [0.0]
+          }
+      ]
+    }
+    
+
+// Reduce the animation steps for demo clarity.
+         myLiveChart = new Chart(ctx).Line(startingData);
+        setInterval(getNew, 1000);
+    }
+
+    function getNew(){
+        
+
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }
+    // onSuccess Geolocation
+    //
+    function onSuccess(position) {
+
+        myLiveChart.addData([Math.random() * 20],Math.floor((Date.now()-1454739000000)/4000 ));//position.coords.speed,Math.floor(Date.now() / 1000)
+      
+
+        var element = document.getElementById('geolocation');
+        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+                            'Longitude: '          + position.coords.longitude             + '<br />' +
+                            'Altitude: '           + position.coords.altitude              + '<br />' +
+                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
+                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+                            'Heading: '            + position.coords.heading               + '<br />' +
+                            'Speed: '              + position.coords.speed                 + '<br />' +
+                            'Timestamp: '          + position.timestamp                    + '<br />';
+    }
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+    </script>
+</head>
+<body>
+<canvas id="updating-chart" width="400" height="200"></canvas>
+ <script src="Chart.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+        
+        <script type="text/javascript" src="js/index.js"></script>
+        
+<p id="geolocation">Finding geolocation...</p>
+</body>
+</html>
