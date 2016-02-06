@@ -101,8 +101,12 @@ var myLiveChart;
     // onSuccess Geolocation
     //
     function onSuccess(position) {
+        var speed = position.coords.speed;
+        if (speed<0) {
+            speed = 0;
+        };
 
-        myLiveChart.addData([Math.random() * 20],Math.floor((Date.now()-1454739000000)/4000 ));//position.coords.speed,Math.floor(Date.now() / 1000)
+        myLiveChart.addData([speed],Math.floor((Date.now()-1454739000000)/4000 ));//position.coords.speed,Math.floor(Date.now() / 1000)
       
 
         var element = document.getElementById('geolocation');
