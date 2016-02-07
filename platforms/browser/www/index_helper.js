@@ -124,31 +124,8 @@ makeCsvFile = function (csv) {
   }, false);
 
 
-
-
-// blob = new Blob([dataOutArray], { type: 'text/csv' }); //new way
-// var csvUrl = URL.createObjectURL(blob);
-
-// $(this)
-// .attr({
-//     'download': filename,
-//     'href': csvUrl
-// });
-
-
-
- // document.getElementById("myDiv").innerHTML = $table;
- //    var csvContent = "$table:text/csv;charset=utf-8,";
-
- //    var encodedUri = encodeURI(csvContent);
- //    var link = document.createElement("a");
- //    link.setAttribute("href", encodedUri);
- //    link.setAttribute("download", "my_data.csv");
-
- //    link.click(); // This will download the data file named "my_data.csv".
-
-
-  
+var snd = new Audio("notify.wav"); // buffers automatically when created
+snd.play();  
 }
 
 
