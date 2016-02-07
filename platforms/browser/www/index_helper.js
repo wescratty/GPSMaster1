@@ -2,6 +2,7 @@
 var refreshIntervalId = null;
 var myLiveChart;
 var dataOutArray = [];
+var startTime;
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -13,7 +14,7 @@ function onDeviceReady() {
     var canvas = document.getElementById('updating-chart'),
     ctx = canvas.getContext('2d'),
     startingData = {
-    labels: [1],
+    labels: [0],
     datasets: [
                {
                fillColor: "rgba(151,187,205,0.2)",
@@ -32,6 +33,8 @@ function onDeviceReady() {
 
 
 function startLocationPoints(){
+    startTime = Date.now();
+
     if (refreshIntervalId == null){
         refreshIntervalId = setInterval(getNew, 1000);
     }else{
@@ -55,23 +58,24 @@ function onSuccess(position) {
     var element = document.getElementById('geolocation');
     element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
     'Longitude: '          + position.coords.longitude             + '<br />' +
-    'Altitude: '           + position.coords.altitude              + '<br />' +
+    'Altitude: '           + position.coords.altitude*3.28084      + '<br />' +
     'Accuracy: '           + position.coords.accuracy              + '<br />' +
     'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
     'Heading: '            + position.coords.heading               + '<br />' +
-    'Speed: '              + position.coords.speed                 + '<br />' +
+    'Speed: '              + position.coords.speed*3.28084              + '<br />' +
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
 function addDataToChart(position){
-    var speed = position.coords.speed; 
-    var time = Math.floor((Date.now()-1454739000000)/4000 );
-    speed = Math.random() * 20;  // intercepts and gives something to 
+    var speed = position.coords.speed*3.28084; 
+    var currentTime = Date.now();
+    var time = Math.floor((currentTime-startTime)/1000);
+    // speed = Math.random() * 20;  // intercepts and gives something to 
 
     
-    if (speed==0||speed<0) {
-        speed = Math.random() * 20;  // intercepts and gives something to
-    };
+    // if (speed==0||speed<0) {
+    //     speed = Math.random() * 20;  // intercepts and gives something to
+    // };
     
     myLiveChart.addData([speed],time);//position.coords.speed,Math.floor(Date.now() / 1000)
     // dataOutArray.push(speed+'\n');
@@ -98,19 +102,19 @@ function sendCSV(){
 
 
     var csvFile = null,
-makeCsvFile = function (csv) {
-    var data = new Blob([csv], {type: 'csv'});
+    makeCsvFile = function (csv) {
+        var data = new Blob([csv], {type: 'csv'});
 
-    // If we are replacing a previously generated file we need to
-    // manually revoke the object URL to avoid memory leaks.
-    if (csvFile !== null) {
-      window.URL.revokeObjectURL(csvFile);
-    }
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (csvFile !== null) {
+          window.URL.revokeObjectURL(csvFile);
+        }
 
-    csvFile = window.URL.createObjectURL(data);
+        csvFile = window.URL.createObjectURL(data);
 
-    return csvFile;
-  };
+        return csvFile;
+    };
 
 
     var dataOut = dataOutArray.join("")

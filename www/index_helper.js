@@ -2,6 +2,7 @@
 var refreshIntervalId = null;
 var myLiveChart;
 var dataOutArray = [];
+var startTime;
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -13,7 +14,7 @@ function onDeviceReady() {
     var canvas = document.getElementById('updating-chart'),
     ctx = canvas.getContext('2d'),
     startingData = {
-    labels: [1],
+    labels: [0],
     datasets: [
                {
                fillColor: "rgba(151,187,205,0.2)",
@@ -32,6 +33,8 @@ function onDeviceReady() {
 
 
 function startLocationPoints(){
+    startTime = Date.now();
+
     if (refreshIntervalId == null){
         refreshIntervalId = setInterval(getNew, 1000);
     }else{
@@ -65,13 +68,14 @@ function onSuccess(position) {
 
 function addDataToChart(position){
     var speed = position.coords.speed*3.28084; 
-    var time = Math.floor((Date.now()-1454739000000)/4000 );
+    var currentTime = Date.now();
+    var time = Math.floor((currentTime-startTime)/1000);
     // speed = Math.random() * 20;  // intercepts and gives something to 
 
     
-    // if (speed==0||speed<0) {
-    //     speed = Math.random() * 20;  // intercepts and gives something to
-    // };
+    if (speed<0) {
+        speed = 0;  // intercepts and gives something to
+    };
     
     myLiveChart.addData([speed],time);//position.coords.speed,Math.floor(Date.now() / 1000)
     // dataOutArray.push(speed+'\n');
