@@ -59,7 +59,7 @@ function onSuccess(position) {
     'Accuracy: '           + position.coords.accuracy              + '<br />' +
     'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
     'Heading: '            + position.coords.heading               + '<br />' +
-    'Speed: '              + position.coords.speed                 + '<br />' +
+    'Speed: '              + position.coords.*3.28084              + '<br />' +
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
