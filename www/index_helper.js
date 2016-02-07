@@ -39,8 +39,8 @@ function getNew(){
 }
 
 function onSuccess(position) {
-    var speed = position.coords.speed;
-    speed = Math.random() *20;
+    var speed = position.coords.speed; 
+    speed = Math.random() *20;  // intercepts and gives something to graph
     if (speed<0) {
         speed = 0;
     };
