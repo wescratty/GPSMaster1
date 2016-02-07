@@ -98,8 +98,8 @@ function sendCSV(){
 
 
     var csvFile = null,
-  makeTextFile = function (csv) {
-    var data = new Blob([csv], {type: 'text/csv'});
+makeCsvFile = function (csv) {
+    var data = new Blob([csv], {type: 'csv'});
 
     // If we are replacing a previously generated file we need to
     // manually revoke the object URL to avoid memory leaks.
@@ -113,13 +113,14 @@ function sendCSV(){
   };
 
 
-  var create = document.getElementById('create'),
-    textbox = document.getElementById('tableDiv');
+    var dataOut = dataOutArray.join("")
+    var create = document.getElementById('create'),
+    tableVal = document.getElementById('tableDiv');
 
   create.addEventListener('click', function () {
     var link = document.getElementById('downloadlink');
-    link.href = makeTextFile(dataOutArray.toString());
-    link.style.display = 'block';
+    link.href = makeCsvFile(dataOut);
+    link.style.display = 'table';
   }, false);
 
 
