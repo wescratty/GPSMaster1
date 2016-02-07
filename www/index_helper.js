@@ -64,7 +64,7 @@ function onSuccess(position) {
 }
 
 function addDataToChart(position){
-    var speed = position.coords.speed; 
+    var speed = position.coords.speed*3.28084; 
     var time = Math.floor((Date.now()-1454739000000)/4000 );
     // speed = Math.random() * 20;  // intercepts and gives something to 
 
