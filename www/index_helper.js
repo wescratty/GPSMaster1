@@ -55,11 +55,11 @@ function onSuccess(position) {
     var element = document.getElementById('geolocation');
     element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
     'Longitude: '          + position.coords.longitude             + '<br />' +
-    'Altitude: '           + position.coords.altitude              + '<br />' +
+    'Altitude: '           + position.coords.altitude*3.28084      + '<br />' +
     'Accuracy: '           + position.coords.accuracy              + '<br />' +
     'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
     'Heading: '            + position.coords.heading               + '<br />' +
-    'Speed: '              + position.coords.*3.28084              + '<br />' +
+    'Speed: '              + position.coords.speed*3.28084              + '<br />' +
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
