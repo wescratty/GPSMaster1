@@ -66,12 +66,12 @@ function onSuccess(position) {
 function addDataToChart(position){
     var speed = position.coords.speed; 
     var time = Math.floor((Date.now()-1454739000000)/4000 );
-    speed = Math.random() * 20;  // intercepts and gives something to 
+    // speed = Math.random() * 20;  // intercepts and gives something to 
 
     
-    if (speed==0||speed<0) {
-        speed = Math.random() * 20;  // intercepts and gives something to
-    };
+    // if (speed==0||speed<0) {
+    //     speed = Math.random() * 20;  // intercepts and gives something to
+    // };
     
     myLiveChart.addData([speed],time);//position.coords.speed,Math.floor(Date.now() / 1000)
     // dataOutArray.push(speed+'\n');
@@ -98,19 +98,19 @@ function sendCSV(){
 
 
     var csvFile = null,
-makeCsvFile = function (csv) {
-    var data = new Blob([csv], {type: 'csv'});
+    makeCsvFile = function (csv) {
+        var data = new Blob([csv], {type: 'csv'});
 
-    // If we are replacing a previously generated file we need to
-    // manually revoke the object URL to avoid memory leaks.
-    if (csvFile !== null) {
-      window.URL.revokeObjectURL(csvFile);
-    }
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (csvFile !== null) {
+          window.URL.revokeObjectURL(csvFile);
+        }
 
-    csvFile = window.URL.createObjectURL(data);
+        csvFile = window.URL.createObjectURL(data);
 
-    return csvFile;
-  };
+        return csvFile;
+    };
 
 
     var dataOut = dataOutArray.join("")
