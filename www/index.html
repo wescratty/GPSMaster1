@@ -37,7 +37,7 @@
             <script src="Chart.js"></script>
             
             <script src="index_helper.js"></script>
-            <script src="signIn.js"></script>
+            <script src="signIn.html"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
             <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
                 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
@@ -46,8 +46,9 @@
                 <br>
                 <button onclick="sendCSV()">Export .csv</button>
                 <br>
-                <button onclick="clickedButton()">Go To SignIn</button>
+                <!-- <button onclick="clickedButton()">Go To SignIn</button> -->
                 <br>
+                 <input type="button" value="Go To SignIn" onClick="clickedButton()"/>
 
                 <script type="text/javascript" language="JavaScript">
                    
@@ -62,12 +63,14 @@
                 </form>
                 <script type="text/javascript">
 
+
                     <!-- Start of Jquerry -->
 
                     $("document").ready(function() {
                                         $("#wrapper").css("width", 500);
                                         $("#wrapper").css("margin", "auto");
-                                        $("#wrapper").css("float", "left");
+                                        // $("#wrapper").css("float", "left");
+
                                         
                                         });
                                         
@@ -80,5 +83,8 @@
                  </p> -->
                 <p id="geolocation">Finding geolocation...</p>
         </div> <!-- End of Wrapper -->
+        <div id = "tableDiv">
+        </div>
+        <button id="create">Create file</button> <a download="info.txt" id="downloadlink" style="display: none">Download</a>
     </body>
 </html>
