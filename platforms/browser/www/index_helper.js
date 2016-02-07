@@ -3,6 +3,10 @@ var refreshIntervalId = null;
 var myLiveChart;
 var dataOutArray = [];
 var startTime;
+var count = 0;
+const METERTOFEET = 3.28084;
+const K_MILL_SEC = 1000;
+
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -36,7 +40,7 @@ function startLocationPoints(){
     startTime = Date.now();
 
     if (refreshIntervalId == null){
-        refreshIntervalId = setInterval(getNew, 1000);
+        refreshIntervalId = setInterval(getNew, K_MILL_SEC);
     }else{
         clearInterval(refreshIntervalId);
         refreshIntervalId = null;
@@ -56,29 +60,30 @@ function onSuccess(position) {
     addDataToChart(position);
 
     var element = document.getElementById('geolocation');
-    element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+    element.innerHTML =
+    'Latitude: '           + position.coords.latitude              + '<br />' +
     'Longitude: '          + position.coords.longitude             + '<br />' +
-    'Altitude: '           + position.coords.altitude*3.28084      + '<br />' +
+    'Altitude: '           + position.coords.altitude*METERTOFEET  + '<br />' +
     'Accuracy: '           + position.coords.accuracy              + '<br />' +
     'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
     'Heading: '            + position.coords.heading               + '<br />' +
-    'Speed: '              + position.coords.speed*3.28084              + '<br />' +
+    'Speed: '              + position.coords.speed*METERTOFEET     + '<br />' +
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
 function addDataToChart(position){
-    var speed = position.coords.speed*3.28084; 
+    var speed = position.coords.speed*METERTOFEET; 
     var currentTime = Date.now();
-    var time = Math.floor((currentTime-startTime)/1000);
-    // speed = Math.random() * 20;  // intercepts and gives something to 
+    // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
+    var time = ++count;
+    
 
     
-    // if (speed==0||speed<0) {
-    //     speed = Math.random() * 20;  // intercepts and gives something to
-    // };
+    if (speed<0) {
+        speed = 0;  // intercepts negative speed
+    };
     
-    myLiveChart.addData([speed],time);//position.coords.speed,Math.floor(Date.now() / 1000)
-    // dataOutArray.push(speed+'\n');
+    myLiveChart.addData([speed],time);
     dataOutArray.push(speed+', '+time+'\n');
 
 }
@@ -119,7 +124,7 @@ function sendCSV(){
 
     var dataOut = dataOutArray.join("")
     var create = document.getElementById('create'),
-    tableVal = document.getElementById('tableDiv');
+        tableVal = document.getElementById('tableDiv');
 
   create.addEventListener('click', function () {
     var link = document.getElementById('downloadlink');
