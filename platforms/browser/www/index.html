@@ -69,7 +69,8 @@
                     $("document").ready(function() {
                                         $("#wrapper").css("width", 500);
                                         $("#wrapper").css("margin", "auto");
-                                        // $("#wrapper").css("float", "left");
+                                         $("#latLonWrapper").css("float", "left");
+                                         $("#tableWrapper").css("float", "right");
 
                                         
                                         });
@@ -81,10 +82,18 @@
                 <!-- <p id = "p_two"> -->
                 <!-- <a href="mailto:wescratty@gmail.com">
                  </p> -->
+                 <div id="latLonWrapper">
                 <p id="geolocation">Finding geolocation...</p>
+                </div>
+                <div id="tableWrapper">
+                <div id = "tableDiv">
+                </div>
+                <button id="create">Create CSV</button> <a download="data.csv" id="downloadlink" style="display: none">Download</a>
+                </div>
+                
+        
         </div> <!-- End of Wrapper -->
-        <div id = "tableDiv">
-        </div>
-        <button id="create">Create file</button> <a download="info.txt" id="downloadlink" style="display: none">Download</a>
+        
+        
     </body>
 </html>
