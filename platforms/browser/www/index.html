@@ -60,89 +60,73 @@
     <title>Device Properties Example</title>
     <meta charset="utf-8">
   <title>JS Bin</title>
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+
+
   <script src="//www.chartjs.org/assets/Chart.min.js"></script>
 
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8">
-    
-     var refreshIntervalId = null;
-var myLiveChart;
-    document.addEventListener("deviceready", onDeviceReady, false);
-    // device APIs are available
-    //
-    function onDeviceReady() {
-        var canvas = document.getElementById('updating-chart'),
-        ctx = canvas.getContext('2d'),
-        startingData = {
-            labels: [1],
-            datasets: [
-          {
-              fillColor: "rgba(151,187,205,0.2)",
-              strokeColor: "rgba(220,220,220,1)",
-              pointColor: "rgba(220,220,220,1)",
-              pointStrokeColor: "#fff",
-              data: [0.0]
-          }
-      ]
-    }
-    
-        myLiveChart = new Chart(ctx).Line(startingData);
-        
-    }
-
-    function startLocationPoints(){
-        if (refreshIntervalId == null){
-            refreshIntervalId = setInterval(getNew, 1000);
-        }else{
-            clearInterval(refreshIntervalId);
-            refreshIntervalId = null;
-
-        }
-    }
-
-    function getNew(){
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    }
-    
-    function onSuccess(position) {
-        var speed = position.coords.speed;
-        if (speed<0) {
-            speed = 0;
-        };
-
-        myLiveChart.addData([speed],Math.floor((Date.now()-1454739000000)/4000 ));//position.coords.speed,Math.floor(Date.now() / 1000)
-      
-
-        var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          + position.timestamp                    + '<br />';
-    }
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
-    }
-    </script>
+   
 </head>
 <body>
+<div id="wrapper">
 
 <canvas id="updating-chart" width="400" height="200"></canvas>
  <script src="Chart.js"></script>
+ <script src="index_helper.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
         
-        <script type="text/javascript" src="js/index.js"></script>
+         <script type="text/javascript" charset="utf-8">
+   
+    </script>
         
         <button onclick="startLocationPoints()">Start location</button>
+        <br>
+        <button onclick="sendCSV()">Export .csv</button>
+        <br>
+        <script type="text/javascript" language="JavaScript">
+                  function clickedButton()
+            {
+
+                window.location = 'signIn.html'
+
+            }
+            
+             </script>
+             <form name="login_form" method="post">
+
+             <br>
+            
+            <input type="button" value="Go To SignIn" onClick="clickedButton()"/>
+
+      </form>
+      <script type="text/javascript">
+$("document").ready(function() {
+    $("#wrapper").css("width", 500);
+    $("#wrapper").css("margin", "auto");
+
+
+});
+
+<!-- End of Jquerry -->
+
+ </script>
+
+        <!-- <p id = "p_two"> -->
+<!-- <a href="mailto:wescratty@gmail.com">
+        </p> -->
 <p id="geolocation">Finding geolocation...</p>
+</div> <!-- End of Wrapper -->
 </body>
 </html>
