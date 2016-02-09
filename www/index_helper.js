@@ -151,8 +151,6 @@ snd.play();
 }
 
 
-
-
 function onError(error) {
     alert('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
@@ -165,13 +163,25 @@ function clickedButton(){
 }
 
 function printPointsArray(){
+    sessionStorage.setItem('pointsArray', pointsArray);
+
+
     for(var i = 0; i<pointsArray.length;i++){
         var pnt = pointsArray[i];
         document.write(pnt.info()+"<br />");
     }
 }
 
+function mailToMe(){
+    sessionStorage.setItem('pointsArray', pointsArray);
 
+}
+
+function goToMail_out(){
+
+    window.location = 'mail_out.html'
+
+}
 
 
 
