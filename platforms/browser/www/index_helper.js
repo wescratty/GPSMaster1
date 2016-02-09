@@ -2,11 +2,22 @@
 var refreshIntervalId = null;
 var myLiveChart;
 var dataOutArray = [];
+var pointsArray = [];
 var startTime;
 var count = 0;
+
 const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
 
+
+function point(y,x){
+    this.y = y;
+    this.x = x
+    this.info = function(){
+        return [x,y];
+    }
+
+}
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -76,15 +87,17 @@ function addDataToChart(position){
     var currentTime = Date.now();
     // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
     var time = ++count;
-    
 
+    speed = Math.random()*10;
     
     if (speed<0) {
         speed = 0;  // intercepts negative speed
+        
     };
     
     myLiveChart.addData([speed],time);
     dataOutArray.push(speed+', '+time+'\n');
+    pointsArray.push(new point(speed,time));  // attempting to make object array for points
 
 }
 
@@ -149,6 +162,13 @@ function onError(error) {
 function clickedButton(){
     window.location = 'signIn.html'
 
+}
+
+function printPointsArray(){
+    for(var i = 0; i<pointsArray.length;i++){
+        var pnt = pointsArray[i];
+        document.write(pnt.info()+"<br />");
+    }
 }
 
 
