@@ -9,15 +9,17 @@ var count = 0;
 const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
 
+// import  "graph";
 
-function point(y,x){
-    this.y = y;
-    this.x = x
-    this.info = function(){
-        return [x,y];
-    }
 
-}
+// function point(y,x){
+//     this.y = y;
+//     this.x = x
+//     this.info = function(){
+//         return [x,y];
+//     }
+
+// }
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -26,6 +28,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 
 function onDeviceReady() {
+     //TODO  we need to make this graph dynamicly add additional data sets 
     var canvas = document.getElementById('updating-chart'),
     ctx = canvas.getContext('2d'),
     startingData = {
@@ -40,6 +43,7 @@ function onDeviceReady() {
                }
                ]
     }
+
     
     myLiveChart = new Chart(ctx).Line(startingData);
     
@@ -103,14 +107,15 @@ function addDataToChart(position){
 
 
 function sendCSV(){
+    var anArray = triNum();
 
     
     // var data = $.parseJSON( txt ).dataOutArray;
 
     var $table = $( "<table></table>" );
 
-    for ( var i = 0; i < dataOutArray.length; i++ ) {
-        var dat = dataOutArray[i];
+    for ( var i = 0; i < anArray.length; i++ ) {
+        var dat = anArray[i];
         var $line = $( "<tr></tr>" );
         $line.append( $( "<td></td>" ).html( dat) );
         $table.append( $line );
@@ -135,7 +140,7 @@ function sendCSV(){
     };
 
 
-    var dataOut = dataOutArray.join("")
+    var dataOut = anArray.join("")
     var create = document.getElementById('create'),
         tableVal = document.getElementById('tableDiv');
 
@@ -182,6 +187,16 @@ function goToMail_out(){
     window.location = 'mail_out.html'
 
 }
+function triNum(){
+    var valueArray= [];
+    for (var i = 1; i <=20; i++) {
+        valueArray[i] =new point(i, (i*(i+1))/2);
+    };
+    return valueArray;
+    
+}
+
+
 
 
 
