@@ -9,6 +9,7 @@ var count = 0;
 const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
 
+
 // import  "graph";
 
 
@@ -20,6 +21,10 @@ const K_MILL_SEC = 1000;
 //     }
 
 // }
+// $.getScript('/graph.js', function()
+// {
+    // script is now loaded and executed.
+    // put your dependent JS here.
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -28,31 +33,33 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 
 function onDeviceReady() {
+
+    createGraph();
      //TODO  we need to make this graph dynamicly add additional data sets 
-    var canvas = document.getElementById('updating-chart'),
-    ctx = canvas.getContext('2d'),
-    startingData = {
-    labels: [0],
-    datasets: [
-               {
-               fillColor: "rgba(151,187,205,0.2)",
-               strokeColor: "rgba(220,220,220,1)",
-               pointColor: "rgba(220,220,220,1)",
-               pointStrokeColor: "#fff",
-               data: [0.0]
-               }
-               ]
-    }
+    // var canvas = document.getElementById('updating-chart'),
+    // ctx = canvas.getContext('2d'),
+    // startingData = {
+    // labels: [0],
+    // datasets: [
+    //            {
+    //            fillColor: "rgba(151,187,205,0.2)",
+    //            strokeColor: "rgba(220,220,220,1)",
+    //            pointColor: "rgba(220,220,220,1)",
+    //            pointStrokeColor: "#fff",
+    //            data: [0.0]
+    //            }
+    //            ]
+    // }
 
     
-    myLiveChart = new Chart(ctx).Line(startingData);
+    // myLiveChart = new Chart(ctx).Line(startingData);
     
 }
 
 
 
 function startLocationPoints(){
-    startTime = Date.now();
+    // startTime = Date.now();
 
     if (refreshIntervalId == null){
         refreshIntervalId = setInterval(getNew, K_MILL_SEC);
@@ -98,8 +105,10 @@ function addDataToChart(position){
         speed = 0;  // intercepts negative speed
         
     };
-    
-    myLiveChart.addData([speed],time);
+    $.getScript('/graph.js', function()
+{
+    lineChart.addData([speed],time);
+});
     dataOutArray.push(speed+', '+time+'\n');
     pointsArray.push(new point(speed,time));  // attempting to make object array for points
 
@@ -197,7 +206,7 @@ function triNum(){
 }
 
 
-
+// });
 
 
 

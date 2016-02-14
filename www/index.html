@@ -37,6 +37,7 @@
             <script src="Chart.js"></script>
             
             <script src="index_helper.js"></script>
+            <script src="graph.js"></script>
             <script src="signIn.html"></script>
             <script src="mail_out.html"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -54,6 +55,7 @@
                 <!-- <button onclick="clickedButton()">Go To SignIn</button> -->
                 <br/>
                  <input type="button" value="Go To SignIn" onClick="clickedButton()"/>
+                 <input type="button" value="add another line" onClick="add_graph_line()"/>
 
                 <script type="text/javascript" language="JavaScript">
                    
@@ -76,7 +78,7 @@
                                         $("#wrapper").css("margin", "auto");
                                          $("#latLonWrapper").css("float", "left");
                                          $("#tableWrapper").css("float", "right");
-
+                                        // $.getScript('/index_helper.js');
                                         
                                         });
                                         

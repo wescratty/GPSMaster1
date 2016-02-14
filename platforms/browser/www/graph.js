@@ -2,11 +2,17 @@
 
 var coorPoints = [];
 var distancePoints = [];
+var lineChart;
+var canvas;
+var ctx;
 
 function createGraph() {
 
     //TODO  we need to make this graph dynamicly add additional data sets 
-    var canvas = document.getElementById('updating-chart'),
+    
+    // var myBarChart = new Chart(ctx).Bar(data);
+
+    canvas = document.getElementById('updating-chart'),
     ctx = canvas.getContext('2d'),
     startingData = {
     labels: [0],
@@ -22,9 +28,46 @@ function createGraph() {
     }
 
     
-    myLiveChart = new Chart(ctx).Line(startingData);
+    lineChart = new Chart(ctx).Line(startingData);
+
+    
+    
     
 }
+function add_graph_line(){
+    // var ctx = document.getElementById('updating-chart').getContext('2d');
+    // lineChart =  new Chart(ctx).Line(data);
+
+    var myNewDataset = {
+    // label: "My Second dataset",
+    fillColor: "rgba(187,205,151,0.5)",
+    strokeColor: "rgba(187,205,151,0.8)",
+    pointColor: "rgba(220,220,220,1)",
+    pointStrokeColor: "#fff",
+    data: [48, 40, 19, 86, 27, 90, 28]
+}
+    var lines = []
+myNewDataset.data.forEach(function (value, i) {
+    lines.push(new lineChart({
+        value: value,
+        // label: lineChart.datasets[0].lines[i].label,
+        // x: lineChart.scale.calculateBarX(lineChart.datasets.length + 1, lineChart.datasets.length, i),
+        // y: lineChart.scale.endPoint,
+        // width: lineChart.scale.calculateBarWidth(lineChart.datasets.length + 1),
+        // base: lineChart.scale.endPoint,
+        strokeColor: myNewDataset.strokeColor,
+        fillColor: myNewDataset.fillColor,
+        pointColor: myNewDataset.pointColor,
+        pointStrokeColor: myNewDataset.pointStrokeColor
+    }))
+})
+
+lineChart.datasets.push({
+    lines: lines
+})
+
+lineChart.update();
+} 
 
 function flow(){
     var tempPoint = getGeoPosition();
@@ -40,7 +83,7 @@ function getGeoPosition(position){
 
 function buildLatLonPoints(aPoint){
     this.aPoint = aPoint;
-    coorPoints.push(aPoint.info));
+    coorPoints.push(aPoint.info);
 
 }
 
