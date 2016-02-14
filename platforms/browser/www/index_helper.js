@@ -8,14 +8,20 @@ var count = 0;
 var time = 0;
 
 var coorPoints = [];
+var non_lat_long_Points = [];
 var distancePoints = [];
 var accelerationPoints = [];
 var ratePoints = [];
 var total_distance = 0;
-// var lineChart;
+
+var lineChart;
+var canvas;
+var ctx;
 
 
-// this is x^2
+
+
+// this is x^3
 var testdata = [
 [ 0 ,  0 ],
 [ 1 ,  1 ],
@@ -47,9 +53,6 @@ const K_MILL_SEC = 1000;
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
-// device APIs are available
-//
-
 
 function onDeviceReady() {
 
@@ -65,7 +68,6 @@ function onDeviceReady() {
 
 
 function startLocationPoints(){
-    // startTime = Date.now();
 
     if (refreshIntervalId == null){
         refreshIntervalId = setInterval(getNew, K_MILL_SEC);
@@ -73,6 +75,16 @@ function startLocationPoints(){
         clearInterval(refreshIntervalId);
         refreshIntervalId = null;
     }
+}
+
+function load_test_data(){
+    for (var i = 0;i< testdata.length;i++) {
+        var temp_arr = testdata[i];
+        var a_point = new point(temp_arr[0],temp_arr[1])
+        
+        addDataToChart(a_point);
+        
+    };
 }
 
 
@@ -86,7 +98,12 @@ function getNew(){
 function onSuccess(position) {
      $.getScript('/graph.js', function()
 {
-    addDataToChart(position);
+    buildLatLonPoints(getGeoPosition(position));
+    var len = coorPoints.length;
+    if (len>1) {
+    var dis_point = new point(time, coorPoints_to_distance(len-1));
+    addDataToChart(dis_point);
+    };
 });
     
     
@@ -102,27 +119,6 @@ function onSuccess(position) {
     'Speed: '              + position.coords.speed*METERTOFEET     + '<br />' +
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
-
-// function addDataToChart(position){
-//     var speed = position.coords.speed*METERTOFEET; 
-//     var currentTime = Date.now();
-//     // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
-//     var time = ++count;
-
-//     speed = Math.random()*10;
-    
-//     if (speed<0) {
-//         speed = 0;  // intercepts negative speed
-        
-//     };
-//     $.getScript('/graph.js', function()
-// {
-//     lineChart.addData([speed],time);
-// });
-//     dataOutArray.push(speed+', '+time+'\n');
-//     pointsArray.push(new point(speed,time));  // attempting to make object array for points
-
-// }
 
 
 function sendCSV(){
@@ -216,7 +212,7 @@ function triNum(){
 }
 
 
-// });
+
 
 
 

@@ -1,9 +1,6 @@
 
 
 
-var lineChart;
-var canvas;
-var ctx;
 
 
 function createGraph() {
@@ -126,47 +123,6 @@ $('#lineThree').click(function () {
     chart.update();
 });
   
-
-    // canvas = document.getElementById('updating-chart'),
-    // ctx = canvas.getContext('2d'),
-    // startingData = {
-    // labels: [0],
-    // datasets: [
-    //            {
-    //             label: "My First dataset",
-    //             fillColor: "rgba(220,220,220,0.2)",
-    //             strokeColor: "rgba(220,220,220,1)",
-    //             pointColor: "rgba(220,220,220,1)",
-    //             pointStrokeColor: "#fff",
-    //             pointHighlightStroke: "rgba(220,220,220,1)",
-    //             data: [0.0]
-    //     },
-    //     {
-    //             label: "My Second dataset",
-    //             fillColor: "rgba(151,187,205,0.2)",
-    //             strokeColor: "rgba(151,187,205,1)",
-    //             pointColor: "rgba(151,187,205,1)",
-    //             pointStrokeColor: "#fff",
-    //             pointHighlightFill: "#fff",
-    //             pointHighlightStroke: "rgba(151,187,205,1)",
-    //             data: [0.0,0.0,0.0]
-    //     },
-    //     {
-    //             label: "My Third dataset",
-    //             fillColor: "rgba(0, 191, 255,0.2)",
-    //             strokeColor: "rgba(0, 191, 255,1)",
-    //             pointColor: "rgba(0, 191, 255,1)",
-    //             pointStrokeColor: "#fff",
-    //             pointHighlightFill: "#fff",
-    //             pointHighlightStroke: "rgba(0, 191, 255,1)",
-    //             data: [0.0,0.0,0.0]
-    //     }
-    //            ]
-    // }
-
-    
-    // lineChart = new Chart(ctx).Line(startingData);
-
     
     
     
