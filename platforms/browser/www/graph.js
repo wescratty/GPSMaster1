@@ -2,14 +2,17 @@
 
 var coorPoints = [];
 var distancePoints = [];
+var accelerationPoints = [];
+var ratePoints = [];
 var lineChart;
 var canvas;
 var ctx;
+var time;
 
 function createGraph() {
 
     var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: [0],
     datasets: [{
         label: "First",
         fillColor: "rgba(220,220,220,0.2)",
@@ -18,7 +21,7 @@ function createGraph() {
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(220,220,220,1)",
-        data: [65, 59, 80, 81, 56, 55, 90]
+        data: [0]
     },{
         label: "Second",
         fillColor: "rgba(0, 191, 255,0.2)",
@@ -27,7 +30,7 @@ function createGraph() {
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(0, 191, 255,1)",
-        data: [2,4,8,16,32,64,21]
+        data: [0]
     }, {
         label: "Third",
         fillColor: "rgba(151,187,205,0.2)",
@@ -36,9 +39,10 @@ function createGraph() {
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(151,187,205,1)",
-        data: [38, 55, 50, 65, 35, 67, 54]
+        data: [0]
     }]
 };
+
 
 var options = {
     // String - Template string for single tooltips
@@ -170,6 +174,56 @@ $('#lineThree').click(function () {
     
     
 }
+
+function addDataToChart(position){
+    var distance = 0.0;
+    var rate = 0.0;
+    var acceleration = 0.0;
+    // var speed = position.coords.speed*METERTOFEET; 
+    // // var currentTime = Date.now();
+    // // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
+    // var time = ++count;
+
+    // speed = Math.random()*10;
+
+    buildLatLonPoints(getGeoPosition(position));
+    var  num_coor_points = coorPoints.length;
+    if (num_coor_points>1) {
+        coorPoints_to_distance();
+        var  num_dis_points = distancePoints.length;
+        if (num_dis_points>1) {
+            ratePoints.push(dv_dt(distancePoints[num_dis_points-1],distancePoints[num_dis_points-2]));
+            rate = ratePoints[num_dis_points-1]
+            var  num_rate_points = ratePoints.length;
+            if (num_rate_points>1) {
+                accelerationPoints.push(dv_dt(ratePoints[num_rate_points-1],ratePoints[num_rate_points-2]));
+                acceleration = accelerationPoints[num_rate_points-1]
+            };
+        };
+
+
+    };
+
+    
+    // if (distancePoints[]<0) {
+    //     distance = 0;  // intercepts negative speed
+        
+    // };
+    
+    lineChart.addData([distance,rate,acceleration],time);
+    time = ++count;
+
+    // dataOutArray.push(speed+', '+time+'\n');
+    // pointsArray.push(new point(speed,time));  // attempting to make object array for points
+
+}
+
+
+
+
+
+
+
 function add_graph_line(){
     lineChart.datasets[1].points[0].value = 50;
     lineChart.datasets[1].points[2].value = 20;
@@ -191,7 +245,7 @@ function flow(){
 function getGeoPosition(position){
     var lat = position.coords.latitude; 
     var lon = position.coords.longitude;
-    return new point(lat,lon)
+    return new point(lat,lon);
 
 }
 
@@ -201,12 +255,12 @@ function buildLatLonPoints(aPoint){
 
 }
 
-function coorPoints_to_distance (coorPoints) {
-    for (var i = 0; i <= coorPoints.length-1; i++) {
-        var point_a = coorPoints[i];
-        var point_b = coorPoints[i+1];
-        distancePoints[i]= new point(getDistanceFromLatLonInKm(point_a[0],point_a[1],point_b[0],point_b[1]),i)
-    };
+function coorPoints_to_distance () {
+    // for (var i = 0; i <= coorPoints.length-1; i++) {
+        var point_a = coorPoints[time];
+        var point_b = coorPoints[time-1];
+        distancePoints[time-1]= new point(getDistanceFromLatLonInKm(point_a[0],point_a[1],point_b[0],point_b[1]),i)
+    // };
 }
 
 function makeGraphFromDataArr(datArr){
@@ -233,7 +287,7 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 }
 
 function deg2rad(deg) {
-  return deg * (Math.PI/180)
+  return deg * (Math.PI/180);
 }
 
 
@@ -262,7 +316,32 @@ function point(y,x){
     this.y = y;
     this.x = x
     this.info = function(){
-        return [x,y];
+        return [this.x,this.y];
     }
 
 }
+
+
+
+
+function dv_dt(a_point,b_point){
+    var a_x = a_point[0];
+    var a_y = a_point[1];
+    var b_x = b_point[0];
+    var b_y = b_point[1];
+
+    var new_rate = (a_y-b_y)/(a_x-b_x)
+
+    return new_rate;
+
+
+}
+
+
+
+
+
+
+
+
+

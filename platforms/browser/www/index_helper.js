@@ -83,8 +83,12 @@ function getNew(){
 
 
 function onSuccess(position) {
-    
+     $.getScript('/graph.js', function()
+{
     addDataToChart(position);
+});
+    
+    // addDataToChart(position);
 
     var element = document.getElementById('geolocation');
     element.innerHTML =
@@ -98,26 +102,26 @@ function onSuccess(position) {
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
-function addDataToChart(position){
-    var speed = position.coords.speed*METERTOFEET; 
-    var currentTime = Date.now();
-    // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
-    var time = ++count;
+// function addDataToChart(position){
+//     var speed = position.coords.speed*METERTOFEET; 
+//     var currentTime = Date.now();
+//     // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
+//     var time = ++count;
 
-    speed = Math.random()*10;
+//     speed = Math.random()*10;
     
-    if (speed<0) {
-        speed = 0;  // intercepts negative speed
+//     if (speed<0) {
+//         speed = 0;  // intercepts negative speed
         
-    };
-    $.getScript('/graph.js', function()
-{
-    lineChart.addData([speed],time);
-});
-    dataOutArray.push(speed+', '+time+'\n');
-    pointsArray.push(new point(speed,time));  // attempting to make object array for points
+//     };
+//     $.getScript('/graph.js', function()
+// {
+//     lineChart.addData([speed],time);
+// });
+//     dataOutArray.push(speed+', '+time+'\n');
+//     pointsArray.push(new point(speed,time));  // attempting to make object array for points
 
-}
+// }
 
 
 function sendCSV(){
