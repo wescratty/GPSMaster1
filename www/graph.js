@@ -8,66 +8,180 @@ var ctx;
 
 function createGraph() {
 
-    //TODO  we need to make this graph dynamicly add additional data sets 
-    
-    // var myBarChart = new Chart(ctx).Bar(data);
+    var data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [{
+        label: "First",
+        fillColor: "rgba(220,220,220,0.2)",
+        strokeColor: "rgba(220,20,20,1)",
+        pointColor: "rgba(220,20,20,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        data: [65, 59, 80, 81, 56, 55, 90]
+    },{
+        label: "Second",
+        fillColor: "rgba(0, 191, 255,0.2)",
+        strokeColor: "rgba(0, 191, 255,1)",
+        pointColor: "rgba(0, 191, 255,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(0, 191, 255,1)",
+        data: [2,4,8,16,32,64,21]
+    }, {
+        label: "Third",
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(15,187,25,1)",
+        pointColor: "rgba(15,187,25,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(151,187,205,1)",
+        data: [38, 55, 50, 65, 35, 67, 54]
+    }]
+};
 
-    canvas = document.getElementById('updating-chart'),
-    ctx = canvas.getContext('2d'),
-    startingData = {
-    labels: [0],
-    datasets: [
-               {
-               fillColor: "rgba(151,187,205,0.2)",
-               strokeColor: "rgba(220,220,220,1)",
-               pointColor: "rgba(220,220,220,1)",
-               pointStrokeColor: "#fff",
-               data: [0.0]
-               }
-               ]
+var options = {
+    // String - Template string for single tooltips
+    tooltipTemplate: "<%if (label){%><%=label %>: <%}%><%= value + ' %' %>",
+    // String - Template string for multiple tooltips
+    multiTooltipTemplate: "<%= value + ' %' %>",
+};
+
+var ctx = document.getElementById("updating-chart").getContext("2d");
+
+window.lineChart = new Chart(ctx).Line(data, options);
+window.lineChart.store = new Array();
+
+$('#lineOne').click(function () {
+    var label = 'First';
+    var chart = window.lineChart;
+    var store = chart.store;
+    var finded = false;
+    for (var i = 0; i < store.length; i++) {
+        console.log("Store name " + store[i][0]);
+        if (store[i][0] === label) {
+            finded = true;
+            var restored = store.splice(i, 1)[0][1];
+            chart.datasets.push(restored);
+        }
     }
+    //Если нет, то добавляем в стор
+    if (!finded) {
+        console.log('Start search dataset with label = ' + label);
+        for (var i = 0; i < chart.datasets.length; i++) {
+            if (chart.datasets[i].label === label) {
+                chart.store.push([label, chart.datasets.splice(i, 1)[0]]);
+            }
+        }
+    }
+    chart.update();
+});
+$('#lineTwo').click(function () {
+    var label = 'Second';
+    var chart = window.lineChart;
+    var store = chart.store;
+    var finded = false;
+    for (var i = 0; i < store.length; i++) {
+        console.log("Store name " + store[i][1]);
+        if (store[i][0] === label) {
+            finded = true;
+            var restored = store.splice(i, 1)[0][1];
+            chart.datasets.push(restored);
+        }
+    }
+    //Если нет, то добавляем в стор
+    if (!finded) {
+        console.log('Start search dataset with label = ' + label);
+        for (var i = 0; i < chart.datasets.length; i++) {
+            if (chart.datasets[i].label === label) {
+                chart.store.push([label, chart.datasets.splice(i, 1)[0]]);
+            }
+        }
+    }
+    chart.update();
+});
+$('#lineThree').click(function () {
+    var label = 'Third';
+    var chart = window.lineChart;
+    var store = chart.store;
+    var finded = false;
+    for (var i = 0; i < store.length; i++) {
+        console.log("Store name " + store[i][2]);
+        if (store[i][0] === label) {
+            finded = true;
+            var restored = store.splice(i, 1)[0][1];
+            chart.datasets.push(restored);
+        }
+    }
+    //Если нет, то добавляем в стор
+    if (!finded) {
+        console.log('Start search dataset with label = ' + label);
+        for (var i = 0; i < chart.datasets.length; i++) {
+            if (chart.datasets[i].label === label) {
+                chart.store.push([label, chart.datasets.splice(i, 1)[0]]);
+            }
+        }
+    }
+    chart.update();
+});
+  
+
+    // canvas = document.getElementById('updating-chart'),
+    // ctx = canvas.getContext('2d'),
+    // startingData = {
+    // labels: [0],
+    // datasets: [
+    //            {
+    //             label: "My First dataset",
+    //             fillColor: "rgba(220,220,220,0.2)",
+    //             strokeColor: "rgba(220,220,220,1)",
+    //             pointColor: "rgba(220,220,220,1)",
+    //             pointStrokeColor: "#fff",
+    //             pointHighlightStroke: "rgba(220,220,220,1)",
+    //             data: [0.0]
+    //     },
+    //     {
+    //             label: "My Second dataset",
+    //             fillColor: "rgba(151,187,205,0.2)",
+    //             strokeColor: "rgba(151,187,205,1)",
+    //             pointColor: "rgba(151,187,205,1)",
+    //             pointStrokeColor: "#fff",
+    //             pointHighlightFill: "#fff",
+    //             pointHighlightStroke: "rgba(151,187,205,1)",
+    //             data: [0.0,0.0,0.0]
+    //     },
+    //     {
+    //             label: "My Third dataset",
+    //             fillColor: "rgba(0, 191, 255,0.2)",
+    //             strokeColor: "rgba(0, 191, 255,1)",
+    //             pointColor: "rgba(0, 191, 255,1)",
+    //             pointStrokeColor: "#fff",
+    //             pointHighlightFill: "#fff",
+    //             pointHighlightStroke: "rgba(0, 191, 255,1)",
+    //             data: [0.0,0.0,0.0]
+    //     }
+    //            ]
+    // }
 
     
-    lineChart = new Chart(ctx).Line(startingData);
+    // lineChart = new Chart(ctx).Line(startingData);
 
     
     
     
 }
 function add_graph_line(){
-    // var ctx = document.getElementById('updating-chart').getContext('2d');
-    // lineChart =  new Chart(ctx).Line(data);
+    lineChart.datasets[1].points[0].value = 50;
+    lineChart.datasets[1].points[2].value = 20;
+    lineChart.datasets[2].points[0].value = 30;
+    lineChart.datasets[2].points[2].value = 10;
+    lineChart.update();
 
-    var myNewDataset = {
-    // label: "My Second dataset",
-    fillColor: "rgba(187,205,151,0.5)",
-    strokeColor: "rgba(187,205,151,0.8)",
-    pointColor: "rgba(220,220,220,1)",
-    pointStrokeColor: "#fff",
-    data: [48, 40, 19, 86, 27, 90, 28]
 }
-    var lines = []
-myNewDataset.data.forEach(function (value, i) {
-    lines.push(new lineChart({
-        value: value,
-        // label: lineChart.datasets[0].lines[i].label,
-        // x: lineChart.scale.calculateBarX(lineChart.datasets.length + 1, lineChart.datasets.length, i),
-        // y: lineChart.scale.endPoint,
-        // width: lineChart.scale.calculateBarWidth(lineChart.datasets.length + 1),
-        // base: lineChart.scale.endPoint,
-        strokeColor: myNewDataset.strokeColor,
-        fillColor: myNewDataset.fillColor,
-        pointColor: myNewDataset.pointColor,
-        pointStrokeColor: myNewDataset.pointStrokeColor
-    }))
-})
 
-lineChart.datasets.push({
-    lines: lines
-})
 
-lineChart.update();
-} 
+
+
 
 function flow(){
     var tempPoint = getGeoPosition();

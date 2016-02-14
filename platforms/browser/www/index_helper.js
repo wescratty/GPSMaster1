@@ -34,7 +34,12 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
 
+    $.getScript('/graph.js', function()
+{
     createGraph();
+});
+
+    
      //TODO  we need to make this graph dynamicly add additional data sets 
     // var canvas = document.getElementById('updating-chart'),
     // ctx = canvas.getContext('2d'),
