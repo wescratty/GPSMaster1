@@ -1,15 +1,15 @@
 
 
-var coorPoints = [];
-var distancePoints = [];
+
 var lineChart;
 var canvas;
 var ctx;
 
+
 function createGraph() {
 
     var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: [0],
     datasets: [{
         label: "First",
         fillColor: "rgba(220,220,220,0.2)",
@@ -18,7 +18,7 @@ function createGraph() {
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(220,220,220,1)",
-        data: [65, 59, 80, 81, 56, 55, 90]
+        data: [0]
     },{
         label: "Second",
         fillColor: "rgba(0, 191, 255,0.2)",
@@ -27,7 +27,7 @@ function createGraph() {
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(0, 191, 255,1)",
-        data: [2,4,8,16,32,64,21]
+        data: [0]
     }, {
         label: "Third",
         fillColor: "rgba(151,187,205,0.2)",
@@ -36,9 +36,10 @@ function createGraph() {
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(151,187,205,1)",
-        data: [38, 55, 50, 65, 35, 67, 54]
+        data: [0]
     }]
 };
+
 
 var options = {
     // String - Template string for single tooltips
@@ -65,7 +66,7 @@ $('#lineOne').click(function () {
             chart.datasets.push(restored);
         }
     }
-    //Если нет, то добавляем в стор
+    
     if (!finded) {
         console.log('Start search dataset with label = ' + label);
         for (var i = 0; i < chart.datasets.length; i++) {
@@ -89,7 +90,7 @@ $('#lineTwo').click(function () {
             chart.datasets.push(restored);
         }
     }
-    //Если нет, то добавляем в стор
+    
     if (!finded) {
         console.log('Start search dataset with label = ' + label);
         for (var i = 0; i < chart.datasets.length; i++) {
@@ -113,7 +114,7 @@ $('#lineThree').click(function () {
             chart.datasets.push(restored);
         }
     }
-    //Если нет, то добавляем в стор
+    
     if (!finded) {
         console.log('Start search dataset with label = ' + label);
         for (var i = 0; i < chart.datasets.length; i++) {
@@ -170,6 +171,50 @@ $('#lineThree').click(function () {
     
     
 }
+
+function addDataToChart(position){
+    var distance = 0.0;
+    var rate = 0.0;
+    var acceleration = 0.0;
+   
+
+
+    // buildLatLonPoints(getGeoPosition(position));  // need to uncomment once it is working on phone
+    // and delete next 4 lines
+    var tmpArr = testdata[time];
+    var x = tmpArr[0];
+    var y= tmpArr[1];
+    coorPoints.push(new point(x,y));
+
+    var  num_coor_points = coorPoints.length;  
+    if (num_coor_points>1) {        // once we have atleast 2 lat long we can get a distance
+         coorPoints_to_distance(num_coor_points-1);  // gets distance
+         distance = distancePoints[num_coor_points-2].info()[1] // gets total distance
+         var  num_dis_points = distancePoints.length;
+        if (num_dis_points>1) {
+            rate = dv_dt(distancePoints[num_dis_points-1],distancePoints[num_dis_points-2]);
+            ratePoints.push(new point(num_dis_points-2,rate));
+            var  num_rate_points = ratePoints.length;
+            if (num_rate_points>1) {
+                acceleration = dv_dt(ratePoints[num_rate_points-1],ratePoints[num_rate_points-2]);
+                accelerationPoints.push(new point(num_rate_points-2,acceleration));
+                
+            };
+        };
+
+    };
+
+    lineChart.addData([distance,rate,acceleration],time);
+    time = time+1;
+
+}
+
+
+
+
+
+
+
 function add_graph_line(){
     lineChart.datasets[1].points[0].value = 50;
     lineChart.datasets[1].points[2].value = 20;
@@ -191,7 +236,7 @@ function flow(){
 function getGeoPosition(position){
     var lat = position.coords.latitude; 
     var lon = position.coords.longitude;
-    return new point(lat,lon)
+    return new point(lat,lon);
 
 }
 
@@ -201,12 +246,28 @@ function buildLatLonPoints(aPoint){
 
 }
 
-function coorPoints_to_distance (coorPoints) {
-    for (var i = 0; i <= coorPoints.length-1; i++) {
-        var point_a = coorPoints[i];
-        var point_b = coorPoints[i+1];
-        distancePoints[i]= new point(getDistanceFromLatLonInKm(point_a[0],point_a[1],point_b[0],point_b[1]),i)
-    };
+function coorPoints_to_distance (index) {
+    this.index  = index;
+    
+    // uncomment later
+    // var point_a = coorPoints[this.index].info();  //last point in array
+    // var point_b = coorPoints[this.index-1].info();// second to last point
+        
+        // creates a point that is the distance covered
+    // var temp_dis = getDistanceFromLatLonInKm(point_a[0],point_a[1],point_b[0],point_b[1]); uncomment for real lat long
+
+    // delete this later, uses tempdata -----------------
+    var point_a = coorPoints[this.index];  //last point in array
+    var point_b = coorPoints[this.index-1];// second to last point
+
+    var temp_dis=dv_dt(point_a,point_b);
+    //----------------------------
+
+
+
+    total_distance = total_distance+temp_dis;   // adds up didstance
+    distancePoints.push(new point(this.index-1,total_distance)); // makes a point and adds to array
+     
 }
 
 function makeGraphFromDataArr(datArr){
@@ -233,7 +294,7 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 }
 
 function deg2rad(deg) {
-  return deg * (Math.PI/180)
+  return deg * (Math.PI/180);
 }
 
 
@@ -242,27 +303,46 @@ function addPointsToChart(aPoint){
     var x = aPoint[0]; 
     var y = aPoint[1]; 
     
-    
     myLiveChart.addData([x],y);
 
 }
 
-// function startLocationPoints(){
-//     startTime = Date.now();
 
-//     if (refreshIntervalId == null){
-//         refreshIntervalId = setInterval(getNew, K_MILL_SEC);
-//     }else{
-//         clearInterval(refreshIntervalId);
-//         refreshIntervalId = null;
-//     }
-// }
 
-function point(y,x){
+function point(x,y){
     this.y = y;
-    this.x = x
+    this.x = x;
     this.info = function(){
-        return [x,y];
+        return [this.x,this.y];
     }
 
 }
+
+
+
+
+function dv_dt(a_point,b_point){
+
+    this.a_point = a_point.info();
+    this.b_point = b_point.info();
+
+    var a_x = this.a_point[0];
+    var a_y = this.a_point[1];
+    var b_x = this.b_point[0];
+    var b_y = this.b_point[1];
+
+    var new_rate = (a_y-b_y)/(a_x-b_x);
+
+    return new_rate;
+
+
+}
+
+
+
+
+
+
+
+
+

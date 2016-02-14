@@ -5,26 +5,45 @@ var dataOutArray = [];
 var pointsArray = [];
 var startTime;
 var count = 0;
+var time = 0;
+
+var coorPoints = [];
+var distancePoints = [];
+var accelerationPoints = [];
+var ratePoints = [];
+var total_distance = 0;
+// var lineChart;
+
+
+// this is x^2
+var testdata = [
+[ 0 ,  0 ],
+[ 1 ,  1 ],
+[ 2 ,  8 ],
+[ 3 ,  27 ],
+[ 4 ,  64 ],
+[ 5 ,  125 ],
+[ 6 ,  216 ],
+[ 7 ,  343 ],
+[ 8 ,  512 ],
+[ 9 ,  729 ],
+[ 10 ,  1000 ],
+[ 11 ,  1331 ],
+[ 12 ,  1728 ],
+[ 13 ,  2197 ],
+[ 14 ,  2744 ],
+[ 15 ,  3375 ],
+[ 16 ,  4096 ],
+[ 17 ,  4913 ],
+[ 18 ,  5832 ],
+[ 19 ,  6859 ],
+[ 20 ,  8000 ]
+];
+
 
 const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
 
-
-// import  "graph";
-
-
-// function point(y,x){
-//     this.y = y;
-//     this.x = x
-//     this.info = function(){
-//         return [x,y];
-//     }
-
-// }
-// $.getScript('/graph.js', function()
-// {
-    // script is now loaded and executed.
-    // put your dependent JS here.
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -40,24 +59,6 @@ function onDeviceReady() {
 });
 
     
-     //TODO  we need to make this graph dynamicly add additional data sets 
-    // var canvas = document.getElementById('updating-chart'),
-    // ctx = canvas.getContext('2d'),
-    // startingData = {
-    // labels: [0],
-    // datasets: [
-    //            {
-    //            fillColor: "rgba(151,187,205,0.2)",
-    //            strokeColor: "rgba(220,220,220,1)",
-    //            pointColor: "rgba(220,220,220,1)",
-    //            pointStrokeColor: "#fff",
-    //            data: [0.0]
-    //            }
-    //            ]
-    // }
-
-    
-    // myLiveChart = new Chart(ctx).Line(startingData);
     
 }
 
@@ -83,8 +84,12 @@ function getNew(){
 
 
 function onSuccess(position) {
-    
+     $.getScript('/graph.js', function()
+{
     addDataToChart(position);
+});
+    
+    
 
     var element = document.getElementById('geolocation');
     element.innerHTML =
@@ -98,26 +103,26 @@ function onSuccess(position) {
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
-function addDataToChart(position){
-    var speed = position.coords.speed*METERTOFEET; 
-    var currentTime = Date.now();
-    // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
-    var time = ++count;
+// function addDataToChart(position){
+//     var speed = position.coords.speed*METERTOFEET; 
+//     var currentTime = Date.now();
+//     // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
+//     var time = ++count;
 
-    speed = Math.random()*10;
+//     speed = Math.random()*10;
     
-    if (speed<0) {
-        speed = 0;  // intercepts negative speed
+//     if (speed<0) {
+//         speed = 0;  // intercepts negative speed
         
-    };
-    $.getScript('/graph.js', function()
-{
-    lineChart.addData([speed],time);
-});
-    dataOutArray.push(speed+', '+time+'\n');
-    pointsArray.push(new point(speed,time));  // attempting to make object array for points
+//     };
+//     $.getScript('/graph.js', function()
+// {
+//     lineChart.addData([speed],time);
+// });
+//     dataOutArray.push(speed+', '+time+'\n');
+//     pointsArray.push(new point(speed,time));  // attempting to make object array for points
 
-}
+// }
 
 
 function sendCSV(){
