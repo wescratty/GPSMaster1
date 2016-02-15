@@ -32,6 +32,7 @@ function readTextFile(file)
             if(rawFile.status === 200 || rawFile.status == 0)
             {
                 var allText = rawFile.responseText;
+
                 alert(allText);
             }
         }
