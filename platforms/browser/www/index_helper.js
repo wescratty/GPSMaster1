@@ -68,6 +68,7 @@ function onDeviceReady() {
     // navigator.splashscreen.hide();
     var fileApp = new FileApp();
     fileApp.run();
+
     
 }
 
@@ -217,27 +218,28 @@ function makeCSVString(an_array){
     var temp;
     for (var i = 0; i< an_array.length; i++) {
         var dat = an_array[i];
-        temp = temp+dat.info()[0]+", "+dat.info()[1]+"\n";
+        temp = temp+dat.info()[0]+", "+dat.info()[1]+"%0D%0A";
 }
-return temp;
+
+return temp+"%0D%0A"+"%0D%0A";
         
 }
 
 
-function tryEmail(afile){
-    this.afile = afile;
+function tryEmail(the_message){
+    this.the_message = the_message;
     cordova.plugins.email.isAvailable(
     function (isAvailable) {
         // alert('Service is not available') unless isAvailable;
         console.log("isAvailable1");
         
         cordova.plugins.email.open({
-    to:      'max@mustermann.de',
-    cc:      'erika@mustermann.de',
-    bcc:     ['john@doe.com', 'jane@doe.com'],
-    subject: 'Greetings',
-    body:    'How are you? Nice greetings from Leipzig',
-    attachments:this.afile
+    to:      'DewyCox@gmail.com',
+    cc:      '',
+    bcc:     [],
+    subject: 'Cordova data',
+    body:    this.the_message,
+    
 });
     }
 );
@@ -257,7 +259,7 @@ function FileApp() {
 
 FileApp.prototype = {
     fileSystemHelper: null,
-    fileNameField: null,
+    fileNameField: "data.csv",
     textField: null,
      
     run: function() {
@@ -313,10 +315,13 @@ FileApp.prototype = {
         }
     },
     
+
+
     _writeTextToFile: function() {
         var that = this,
             fileName = that.fileNameField.value,
-            text = that.textField.value;
+            text = "Distance"+"%0D%0A"+makeCSVString(distancePoints)+"Volocity"+"%0D%0A"+makeCSVString(ratePoints)+"Acceleration"+"%0D%0A"+makeCSVString(accelerationPoints);
+            // text = that.textField.value;
 
         if (that._isValidFileName(fileName)) {
             fileSystemHelper.writeLine(fileName, text, that._onSuccess, that._onError)

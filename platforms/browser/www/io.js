@@ -39,6 +39,7 @@ FileSystemHelper.prototype = {
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, grantedBytes,
 								 function(fileSystem) {
 									 that._createFile.call(that, fileSystem, fileName, text, onSuccess, onError);
+
 								 },
 								 function(error) {
 									 error.message = "Request file system failed.";
@@ -86,7 +87,7 @@ FileSystemHelper.prototype = {
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
 								 function(fileSystem) {
 									 that._getFileEntry.call(that, fileSystem, fileName, onSuccess, onError);
-									 console.log(fileSystem);
+									 // console.log(fileSystem);
 								 },
 								 function(error) {
 									 error.message = "Unable to request file system.";
@@ -113,6 +114,7 @@ FileSystemHelper.prototype = {
 		fileEntry.file(
 			function(file) { 
 				that._getFileReader.call(that, file, onSuccess);
+				console.log(file);
 			},
 			function(error) {
 				error.message = "Unable to get file for reading.";
@@ -125,6 +127,7 @@ FileSystemHelper.prototype = {
 		var reader = new FileReader();
 		reader.onloadend = function(evt) { 
 			var textToWrite = evt.target.result;
+			tryEmail(textToWrite);
 			onSuccess.call(that, textToWrite);
 		};
         

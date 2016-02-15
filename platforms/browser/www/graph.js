@@ -237,10 +237,13 @@ function dv_dt(a_point,b_point){
     var a_y = this.a_point[1];
     var b_x = this.b_point[0];
     var b_y = this.b_point[1];
-    
+
+    if ((a_x-b_x)==0) {
+        return 0;
+    }else{
     var new_rate = (a_y-b_y)/(a_x-b_x);
-    
     return new_rate;
+    };
     
 }
 
