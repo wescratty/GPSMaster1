@@ -20,7 +20,6 @@ var ctx;
 
 
 
-
 // this is x^3
 var testdata = [
 [ 0 ,  0 ],
@@ -49,7 +48,9 @@ var testdata = [
 
 const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
-
+// var exec = require('cordova/exec'),
+//     FileError = require('./FileError'),
+//     ProgressEvent = require('./ProgressEvent');
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -61,9 +62,41 @@ function onDeviceReady() {
     createGraph();
 });
 
+window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     
     
 }
+
+
+
+function gotFS(fileSystem) {
+        fileSystem.root.getFile("readme.txt", {create: true, exclusive: false}, gotFileEntry, fail);
+    }
+
+    function gotFileEntry(fileEntry) {
+        fileEntry.createWriter(gotFileWriter, fail);
+    }
+
+    function gotFileWriter(writer) {
+        writer.onwriteend = function(evt) {
+            console.log("contents of file now 'some sample text'");
+            writer.truncate(11);  
+            writer.onwriteend = function(evt) {
+                console.log("contents of file now 'some sample'");
+                writer.seek(4);
+                writer.write(" different text");
+                writer.onwriteend = function(evt){
+                    console.log("contents of file now 'some different text'");
+                }
+            };
+        };
+        writer.write("some sample text");
+    }
+
+    function fail(error) {
+        console.log(error.code);
+    }
+
 
 
 
@@ -162,13 +195,43 @@ function sendCSV(){
 
   create.addEventListener('click', function () {
     var link = document.getElementById('downloadlink');
-    link.href = makeCsvFile(makeCSVString(distancePoints));
-    link.style.display = 'table';
+     var csvFile = makeCsvFile(makeCSVString(distancePoints));
+     // link.href =csvFile;
+
+
+     // $cordovaFile.checkDir(cordova.file.dataDirectory, "dir/other_dir")
+     //  .then(function (success) {
+     //    // success
+     //  }, function (error) {
+     //    // error
+     //  });
+
+
+
+    // module.controller('MyCtrl', function($scope, $cordovaFile) {
+      // writeExistingFile(cordova.file.dataDirectory, "data.csv", "text")
+      // .then(function (success) {
+      //   console.log("isAvailable9");
+      // }, function (error) {
+      //   console.log(JSON.stringify(error))
+      // });
+  // });
+
+
+  $cordovaFile.checkFile(cordova.file.dataDirectory, "some_file.txt")
+      .then(function (success) {
+        // success
+      }, function (error) {
+        // error
+      });
+
+    tryEmail(csvFile);
+    // link.style.display = 'table';
   }, false);
 
 
-var snd = new Audio("notify.wav"); // buffers automatically when created
-snd.play();  
+// var snd = new Audio("notify.wav"); // buffers automatically when created
+// snd.play();  
 }
 
 
@@ -222,7 +285,52 @@ return temp;
     
 // }
 
+function tryEmail(afile){
+    this.afile = afile;
+    cordova.plugins.email.isAvailable(
+    function (isAvailable) {
+        // alert('Service is not available') unless isAvailable;
+        console.log("isAvailable1");
+        
+        cordova.plugins.email.open({
+    to:      'max@mustermann.de',
+    cc:      'erika@mustermann.de',
+    bcc:     ['john@doe.com', 'jane@doe.com'],
+    subject: 'Greetings',
+    body:    'How are you? Nice greetings from Leipzig',
+    attachments:this.afile
+});
+    }
+);
 
+//     module.controller('ThisCtrl', function($cordovaEmailComposer) {
+
+//  $cordovaEmailComposer.isAvailable().then(function() {
+//    // is available
+//  }, function () {
+//    // not available
+//  });
+
+//   var email = {
+//     to: 'wescratty@gmail.com',
+//     // cc: 'erika@mustermann.de',
+//     // bcc: ['john@doe.com', 'jane@doe.com'],
+//     attachments: [
+//       'file://img/logo.png',
+//       'res://icon.png',
+//       'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
+//       'file://README.pdf'
+//     ],
+//     subject: 'Cordova Icons',
+//     body: 'How are you? Nice greetings from Leipzig',
+//     isHtml: true
+//   };
+
+//  $cordovaEmailComposer.open(email).then(null, function () {
+//    // user cancelled email
+//  });
+// });
+}
 
 
 

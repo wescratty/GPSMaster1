@@ -8,6 +8,7 @@ var count = 0;
 var time = 0;
 
 var coorPoints = [];
+var non_lat_long_Points = [];
 var distancePoints = [];
 var accelerationPoints = [];
 var ratePoints = [];
@@ -17,10 +18,9 @@ var lineChart;
 var canvas;
 var ctx;
 
-// var lineChart;
 
 
-// this is x^2
+// this is x^3
 var testdata = [
 [ 0 ,  0 ],
 [ 1 ,  1 ],
@@ -48,21 +48,37 @@ var testdata = [
 
 const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
-
+// var exec = require('cordova/exec'),
+//     FileError = require('./FileError'),
+//     ProgressEvent = require('./ProgressEvent');
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
-// device APIs are available
-//
-
 
 function onDeviceReady() {
 
-    $.getScript('/platforms/ios/www/graph.js', function()
+    $.getScript('/graph.js', function()
 {
     createGraph();
 });
 
+$cordovaFile.checkFile(cordova.file.dataDirectory, "data.csv")
+      .then(function (success) {
+        console.log("isAvailable file");
+      }, function (error) {
+        console.log(error);
+      });
+
+
+
+// cordova.plugins.email.isAvailable(
+//     urischeme, function (isAvailable, withScheme) {
+//         // alert('Service is not available') unless isAvailable;
+//         console.log("isAvailable2");
+//     }
+// );
+
+// cordova.plugins.email.open();
     
     
 }
@@ -70,7 +86,6 @@ function onDeviceReady() {
 
 
 function startLocationPoints(){
-    // startTime = Date.now();
 
     if (refreshIntervalId == null){
         refreshIntervalId = setInterval(getNew, K_MILL_SEC);
@@ -78,6 +93,16 @@ function startLocationPoints(){
         clearInterval(refreshIntervalId);
         refreshIntervalId = null;
     }
+}
+
+function load_test_data(){
+    for (var i = 0;i< testdata.length;i++) {
+        var temp_arr = testdata[i];
+        var a_point = new point(temp_arr[0],temp_arr[1])
+        
+        addDataToChart(a_point);
+        
+    };
 }
 
 
@@ -91,7 +116,12 @@ function getNew(){
 function onSuccess(position) {
      $.getScript('/graph.js', function()
 {
-    addDataToChart(position);
+    buildLatLonPoints(getGeoPosition(position));
+    var len = coorPoints.length;
+    if (len>1) {
+    var dis_point = new point(time, coorPoints_to_distance(len-1));
+    addDataToChart(dis_point);
+    };
 });
     
     
@@ -108,30 +138,9 @@ function onSuccess(position) {
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
-// function addDataToChart(position){
-//     var speed = position.coords.speed*METERTOFEET; 
-//     var currentTime = Date.now();
-//     // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
-//     var time = ++count;
-
-//     speed = Math.random()*10;
-    
-//     if (speed<0) {
-//         speed = 0;  // intercepts negative speed
-        
-//     };
-//     $.getScript('/graph.js', function()
-// {
-//     lineChart.addData([speed],time);
-// });
-//     dataOutArray.push(speed+', '+time+'\n');
-//     pointsArray.push(new point(speed,time));  // attempting to make object array for points
-
-// }
-
 
 function sendCSV(){
-    var anArray = triNum();
+    var anArray = distancePoints;
 
     
     // var data = $.parseJSON( txt ).dataOutArray;
@@ -141,7 +150,7 @@ function sendCSV(){
     for ( var i = 0; i < anArray.length; i++ ) {
         var dat = anArray[i];
         var $line = $( "<tr></tr>" );
-        $line.append( $( "<td></td>" ).html( dat) );
+        $line.append( $( "<td></td>" ).html( dat.info()[0]+", "+dat.info()[1]) );
         $table.append( $line );
     }
 
@@ -163,6 +172,7 @@ function sendCSV(){
         return csvFile;
     };
 
+    // console.log("hi there");
 
     var dataOut = anArray.join("")
     var create = document.getElementById('create'),
@@ -170,13 +180,43 @@ function sendCSV(){
 
   create.addEventListener('click', function () {
     var link = document.getElementById('downloadlink');
-    link.href = makeCsvFile(dataOut);
-    link.style.display = 'table';
+     var csvFile = makeCsvFile(makeCSVString(distancePoints));
+     // link.href =csvFile;
+
+
+     // $cordovaFile.checkDir(cordova.file.dataDirectory, "dir/other_dir")
+     //  .then(function (success) {
+     //    // success
+     //  }, function (error) {
+     //    // error
+     //  });
+
+
+
+    // module.controller('MyCtrl', function($scope, $cordovaFile) {
+      // writeExistingFile(cordova.file.dataDirectory, "data.csv", "text")
+      // .then(function (success) {
+      //   console.log("isAvailable9");
+      // }, function (error) {
+      //   console.log(JSON.stringify(error))
+      // });
+  // });
+
+
+  $cordovaFile.checkFile(cordova.file.dataDirectory, "some_file.txt")
+      .then(function (success) {
+        // success
+      }, function (error) {
+        // error
+      });
+
+    tryEmail(csvFile);
+    // link.style.display = 'table';
   }, false);
 
 
-var snd = new Audio("notify.wav"); // buffers automatically when created
-snd.play();  
+// var snd = new Audio("notify.wav"); // buffers automatically when created
+// snd.play();  
 }
 
 
@@ -211,17 +251,72 @@ function goToMail_out(){
     window.location = 'mail_out.html'
 
 }
-function triNum(){
-    var valueArray= [];
-    for (var i = 1; i <=20; i++) {
-        valueArray[i] =new point(i, (i*(i+1))/2);
-    };
-    return valueArray;
+
+function makeCSVString(an_array){
+    var temp;
+    for (var i = 0; i< an_array.length; i++) {
+        var dat = an_array[i];
+        temp = temp+dat.info()[0]+", "+dat.info()[1]+"\n";
+}
+return temp;
+        
+}
+// function triNum(){
+//     var valueArray= [];
+//     for (var i = 1; i <=20; i++) {
+//         valueArray[i] =new point(i, (i*(i+1))/2);
+//     };
+//     return valueArray;
     
+// }
+
+function tryEmail(afile){
+    this.afile = afile;
+    cordova.plugins.email.isAvailable(
+    function (isAvailable) {
+        // alert('Service is not available') unless isAvailable;
+        console.log("isAvailable1");
+        
+        cordova.plugins.email.open({
+    to:      'max@mustermann.de',
+    cc:      'erika@mustermann.de',
+    bcc:     ['john@doe.com', 'jane@doe.com'],
+    subject: 'Greetings',
+    body:    'How are you? Nice greetings from Leipzig',
+    attachments:this.afile
+});
+    }
+);
+
+//     module.controller('ThisCtrl', function($cordovaEmailComposer) {
+
+//  $cordovaEmailComposer.isAvailable().then(function() {
+//    // is available
+//  }, function () {
+//    // not available
+//  });
+
+//   var email = {
+//     to: 'wescratty@gmail.com',
+//     // cc: 'erika@mustermann.de',
+//     // bcc: ['john@doe.com', 'jane@doe.com'],
+//     attachments: [
+//       'file://img/logo.png',
+//       'res://icon.png',
+//       'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
+//       'file://README.pdf'
+//     ],
+//     subject: 'Cordova Icons',
+//     body: 'How are you? Nice greetings from Leipzig',
+//     isHtml: true
+//   };
+
+//  $cordovaEmailComposer.open(email).then(null, function () {
+//    // user cancelled email
+//  });
+// });
 }
 
-
-// });
 
 
 

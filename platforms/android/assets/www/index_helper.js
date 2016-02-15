@@ -8,94 +8,20 @@ var count = 0;
 var time = 0;
 
 var coorPoints = [];
+var non_lat_long_Points = [];
 var distancePoints = [];
 var accelerationPoints = [];
 var ratePoints = [];
 var total_distance = 0;
-// var lineChart;
+
+var lineChart;
+var canvas;
+var ctx;
 
 
-// var testdata = [
-// [0.748966772970291, 0.420133830290049],
-// [0.973166725009863, 0.921640928350330],
-// [1.18441009172371, 1.66152277005763],
-// [1.27625295658650, 2.07878839448810],
-// [1.36881905380677, 2.56470917656815],
-// [1.45068281931972, 3.05293391133116],
-// [1.52438115601154, 3.54226227968903],
-// [1.60197632020340, 4.11119689492071],
-// [1.66340524733256, 4.60250428476783],
-// [1.77104281148501, 5.55503984782838],
-// [1.84033581692304, 6.23291544786875],
-// [1.88672275108265, 6.71620988007204],
-// [1.90481977441887, 6.91133068120590],
-// [1.93096138844469, 7.19980557985163],
-// [1.96523918495835, 7.59007810308570],
-// [1.98193578825049, 7.78518145884587],
-// [1.99835387277285, 7.98026272722276],
-// [2.06087851551741, 8.75300497568630],
-// [2.12681106753463, 9.62025834622926],
-// [2.16814449816021, 10.1921232889664],
-// [2.22084530414855, 10.9535507503315],
-// [2.26550280564596, 11.6276998612801],
-// [2.32576024507836, 12.5804109562033],
-// [2.36064406141887, 13.1550204305937],
-// [2.38313225457903, 13.5345691099168],
-// [2.40521937155178, 13.9143870238437],
-// [2.42153169014036, 14.1994156065097],
-// [2.44855078205641, 14.6800436415470],
-// [2.47499301105530, 15.1607934403995],
-// [2.49042892794745, 15.4462285629044],
-// [2.51099228635801, 15.8320129251099],
-// [2.53122571239524, 16.2178253922484],
-// [2.56545093122038, 16.8846140236601],
-// [2.58461622502219, 17.2658593548716],
-// [2.60373940831558, 17.6519443216902],
-// [2.62720036810047, 18.1334144977360],
-// [2.66355717968287, 18.8967045618510],
-// [2.67694439420090, 19.1830672894798],
-// [2.69459304292146, 19.5649864956163],
-// [2.72064972666853, 20.1380722583286],
-// [2.73775311412716, 20.5202593261580],
-// [2.76719014995986, 21.1893194922842],
-// [2.79602560859350, 21.8586549359518],
-// [2.83226280532315, 22.7195982274885],
-// [2.87936007278214, 23.8719521009296],
-// [2.92497879053147, 25.0246587481698],
-// [2.95453157808539, 25.7908650044405],
-// [2.96909196031892, 26.1740511641992],
-// [2.96909196031892, 26.1740511641992],
-// [2.96909196031892, 26.1740511641992],
-// [2.96909196031892, 26.1740511641992],
-// [2.96909196031892, 26.1740511641992],
-// [2.96909196031892, 26.1740511641992],
-// [2.96909196031892, 26.1740511641992],
-// [2.96909196031892, 26.1740511641992],
-// [2.96895496596245, 26.1704283072099],
-// [2.96895496596245, 26.1704283072099],
-// [2.96895496596245, 26.1704283072099],
-// [2.96881793384262, 26.1668047860139],
-// [2.96881793384262, 26.1668047860139],
-// [2.96881793384262, 26.1668047860139],
-// [2.96868086393401, 26.1631806001998],
-// [2.96868086393401, 26.1631806001998],
-// [2.96868086393401, 26.1631806001998],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559],
-// [2.96854375621114, 26.1595557493559]
-// ];
+
+
+// this is x^3
 var testdata = [
 [ 0 ,  0 ],
 [ 1 ,  1 ],
@@ -125,27 +51,8 @@ const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
 
 
-// import  "graph";
-
-
-// function point(y,x){
-//     this.y = y;
-//     this.x = x
-//     this.info = function(){
-//         return [x,y];
-//     }
-
-// }
-// $.getScript('/graph.js', function()
-// {
-    // script is now loaded and executed.
-    // put your dependent JS here.
-
 
 document.addEventListener("deviceready", onDeviceReady, false);
-// device APIs are available
-//
-
 
 function onDeviceReady() {
 
@@ -154,32 +61,24 @@ function onDeviceReady() {
     createGraph();
 });
 
-    
-     //TODO  we need to make this graph dynamicly add additional data sets 
-    // var canvas = document.getElementById('updating-chart'),
-    // ctx = canvas.getContext('2d'),
-    // startingData = {
-    // labels: [0],
-    // datasets: [
-    //            {
-    //            fillColor: "rgba(151,187,205,0.2)",
-    //            strokeColor: "rgba(220,220,220,1)",
-    //            pointColor: "rgba(220,220,220,1)",
-    //            pointStrokeColor: "#fff",
-    //            data: [0.0]
-    //            }
-    //            ]
-    // }
 
+
+
+// cordova.plugins.email.isAvailable(
+//     urischeme, function (isAvailable, withScheme) {
+//         // alert('Service is not available') unless isAvailable;
+//         console.log("isAvailable2");
+//     }
+// );
+
+// cordova.plugins.email.open();
     
-    // myLiveChart = new Chart(ctx).Line(startingData);
     
 }
 
 
 
 function startLocationPoints(){
-    // startTime = Date.now();
 
     if (refreshIntervalId == null){
         refreshIntervalId = setInterval(getNew, K_MILL_SEC);
@@ -187,6 +86,16 @@ function startLocationPoints(){
         clearInterval(refreshIntervalId);
         refreshIntervalId = null;
     }
+}
+
+function load_test_data(){
+    for (var i = 0;i< testdata.length;i++) {
+        var temp_arr = testdata[i];
+        var a_point = new point(temp_arr[0],temp_arr[1])
+        
+        addDataToChart(a_point);
+        
+    };
 }
 
 
@@ -200,10 +109,15 @@ function getNew(){
 function onSuccess(position) {
      $.getScript('/graph.js', function()
 {
-    addDataToChart(position);
+    buildLatLonPoints(getGeoPosition(position));
+    var len = coorPoints.length;
+    if (len>1) {
+    var dis_point = new point(time, coorPoints_to_distance(len-1));
+    addDataToChart(dis_point);
+    };
 });
     
-    // addDataToChart(position);
+    
 
     var element = document.getElementById('geolocation');
     element.innerHTML =
@@ -217,30 +131,9 @@ function onSuccess(position) {
     'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
-// function addDataToChart(position){
-//     var speed = position.coords.speed*METERTOFEET; 
-//     var currentTime = Date.now();
-//     // var time = Math.floor((currentTime-startTime)/K_MILL_SEC);
-//     var time = ++count;
-
-//     speed = Math.random()*10;
-    
-//     if (speed<0) {
-//         speed = 0;  // intercepts negative speed
-        
-//     };
-//     $.getScript('/graph.js', function()
-// {
-//     lineChart.addData([speed],time);
-// });
-//     dataOutArray.push(speed+', '+time+'\n');
-//     pointsArray.push(new point(speed,time));  // attempting to make object array for points
-
-// }
-
 
 function sendCSV(){
-    var anArray = triNum();
+    var anArray = distancePoints;
 
     
     // var data = $.parseJSON( txt ).dataOutArray;
@@ -250,7 +143,7 @@ function sendCSV(){
     for ( var i = 0; i < anArray.length; i++ ) {
         var dat = anArray[i];
         var $line = $( "<tr></tr>" );
-        $line.append( $( "<td></td>" ).html( dat) );
+        $line.append( $( "<td></td>" ).html( dat.info()[0]+", "+dat.info()[1]) );
         $table.append( $line );
     }
 
@@ -272,6 +165,7 @@ function sendCSV(){
         return csvFile;
     };
 
+    // console.log("hi there");
 
     var dataOut = anArray.join("")
     var create = document.getElementById('create'),
@@ -279,13 +173,17 @@ function sendCSV(){
 
   create.addEventListener('click', function () {
     var link = document.getElementById('downloadlink');
-    link.href = makeCsvFile(dataOut);
-    link.style.display = 'table';
+     var csvFile = makeCsvFile(makeCSVString(distancePoints));
+     // link.href =csvFile;
+
+     console.log("finished file");
+    tryEmail(csvFile);
+    // link.style.display = 'table';
   }, false);
 
 
-var snd = new Audio("notify.wav"); // buffers automatically when created
-snd.play();  
+// var snd = new Audio("notify.wav"); // buffers automatically when created
+// snd.play();  
 }
 
 
@@ -320,17 +218,71 @@ function goToMail_out(){
     window.location = 'mail_out.html'
 
 }
-function triNum(){
-    var valueArray= [];
-    for (var i = 1; i <=20; i++) {
-        valueArray[i] =new point(i, (i*(i+1))/2);
-    };
-    return valueArray;
+
+function makeCSVString(an_array){
+    var temp;
+    for (var i = 0; i< an_array.length; i++) {
+        var dat = an_array[i];
+        temp = temp+dat.info()[0]+", "+dat.info()[1]+"\n";
+}
+return temp;
+        
+}
+// function triNum(){
+//     var valueArray= [];
+//     for (var i = 1; i <=20; i++) {
+//         valueArray[i] =new point(i, (i*(i+1))/2);
+//     };
+//     return valueArray;
     
+// }
+
+function tryEmail(afile){
+    this.afile = afile;
+    cordova.plugins.email.isAvailable(
+    function (isAvailable) {
+        // alert('Service is not available') unless isAvailable;
+        console.log("isAvailable1");
+        cordova.plugins.email.open({
+    to:      'max@mustermann.de',
+    cc:      'erika@mustermann.de',
+    bcc:     ['john@doe.com', 'jane@doe.com'],
+    subject: 'Greetings',
+    body:    'How are you? Nice greetings from Leipzig',
+    attachments:this.afile
+});
+    }
+);
+
+//     module.controller('ThisCtrl', function($cordovaEmailComposer) {
+
+//  $cordovaEmailComposer.isAvailable().then(function() {
+//    // is available
+//  }, function () {
+//    // not available
+//  });
+
+//   var email = {
+//     to: 'wescratty@gmail.com',
+//     // cc: 'erika@mustermann.de',
+//     // bcc: ['john@doe.com', 'jane@doe.com'],
+//     attachments: [
+//       'file://img/logo.png',
+//       'res://icon.png',
+//       'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
+//       'file://README.pdf'
+//     ],
+//     subject: 'Cordova Icons',
+//     body: 'How are you? Nice greetings from Leipzig',
+//     isHtml: true
+//   };
+
+//  $cordovaEmailComposer.open(email).then(null, function () {
+//    // user cancelled email
+//  });
+// });
 }
 
-
-// });
 
 
 

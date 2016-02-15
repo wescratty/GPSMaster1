@@ -9,6 +9,12 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
     "dependent_plugins": {}

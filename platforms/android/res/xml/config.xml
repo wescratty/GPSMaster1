@@ -8,6 +8,13 @@
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
+    <feature name="EmailComposer">
+        <param name="android-package" value="de.appplant.cordova.emailcomposer.EmailComposer" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
     <allow-intent href="market:*" />
     <name>HelloCordova</name>
     <description>
@@ -17,6 +24,7 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+    <gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
