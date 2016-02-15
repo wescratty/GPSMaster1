@@ -17,6 +17,7 @@ var total_distance = 0;
 var lineChart;
 var canvas;
 var ctx;
+var logOb;
 
 
 
@@ -52,6 +53,57 @@ const K_MILL_SEC = 1000;
 //     FileError = require('./FileError'),
 //     ProgressEvent = require('./ProgressEvent');
 
+var params = {
+   text: 'Text to go into the file.',
+   path: '/www',
+   fileName: 'data.csv',
+   append: false
+  };
+ 
+  var callback = {
+    success: function(file) {},
+    error: function(error) {}
+  };
+ 
+ 
+
+cordova.file.writeTextToFile = function(params, callback) {
+  window.resolveLocalFileSystemURL(params.path, function(dir) {
+    dir.getFile(params.fileName, {create:true}, function(file) {
+      if(!file) return callback.error('dir.getFile failed')
+      file.createWriter(
+        function(fileWriter) {
+          if (params.append == true) fileWriter.seek(fileWriter.length)
+          var blob = new Blob([params.text], {type:'text/plain'})
+          fileWriter.write(blob)
+          callback.success(file)
+        },
+        function(error) {
+          callback.error(error)
+        }
+      )
+    })
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -61,29 +113,24 @@ function onDeviceReady() {
 {
     createGraph();
 });
-
-$cordovaFile.checkFile(cordova.file.dataDirectory, "data.csv")
-      .then(function (success) {
-        console.log("isAvailable file");
-      }, function (error) {
-        console.log(error);
-      });
-
-
-
-// cordova.plugins.email.isAvailable(
-//     urischeme, function (isAvailable, withScheme) {
-//         // alert('Service is not available') unless isAvailable;
-//         console.log("isAvailable2");
-//     }
-// );
-
-// cordova.plugins.email.open();
-    
+ cordova.file.writeTextToFile({
+    text:  'The date is ' + (new Date()),
+    path: cordova.file.externalDataDirectory,
+    fileName: 'data.csv',
+    append: false
+  },
+  {
+    success: function(file) {
+      console.log("Success! Look for the file at " + file.nativeURL)
+      console.log(file)
+    },
+    error: function(error) {
+      console.log(error)
+    }
+  }
+)
     
 }
-
-
 
 function startLocationPoints(){
 
@@ -140,84 +187,115 @@ function onSuccess(position) {
 
 
 function sendCSV(){
-    var anArray = distancePoints;
+  //   var anArray = distancePoints;
 
     
-    // var data = $.parseJSON( txt ).dataOutArray;
+  //   // var data = $.parseJSON( txt ).dataOutArray;
 
-    var $table = $( "<table></table>" );
+  //   var $table = $( "<table></table>" );
 
-    for ( var i = 0; i < anArray.length; i++ ) {
-        var dat = anArray[i];
-        var $line = $( "<tr></tr>" );
-        $line.append( $( "<td></td>" ).html( dat.info()[0]+", "+dat.info()[1]) );
-        $table.append( $line );
-    }
+  //   for ( var i = 0; i < anArray.length; i++ ) {
+  //       var dat = anArray[i];
+  //       var $line = $( "<tr></tr>" );
+  //       $line.append( $( "<td></td>" ).html( dat.info()[0]+", "+dat.info()[1]) );
+  //       $table.append( $line );
+  //   }
 
-    $table.appendTo( $( "#tableDiv" ) );
+  //   $table.appendTo( $( "#tableDiv" ) );
 
 
-    var csvFile = null,
-    makeCsvFile = function (csv) {
-        var data = new Blob([csv], {type: 'csv'});
+  //   var csvFile = null,
+  //   makeCsvFile = function (csv) {
+  //       var data = new Blob([csv], {type: 'csv'});
 
-        // If we are replacing a previously generated file we need to
-        // manually revoke the object URL to avoid memory leaks.
-        if (csvFile !== null) {
-          window.URL.revokeObjectURL(csvFile);
-        }
+  //       // If we are replacing a previously generated file we need to
+  //       // manually revoke the object URL to avoid memory leaks.
+  //       if (csvFile !== null) {
+  //         window.URL.revokeObjectURL(csvFile);
+  //       }
 
-        csvFile = window.URL.createObjectURL(data);
+  //       csvFile = window.URL.createObjectURL(data);
 
-        return csvFile;
-    };
+  //       return csvFile;
+  //   };
 
-    // console.log("hi there");
+  //   // console.log("hi there");
 
-    var dataOut = anArray.join("")
-    var create = document.getElementById('create'),
-        tableVal = document.getElementById('tableDiv');
+  //   var dataOut = anArray.join("")
+  //   var create = document.getElementById('create'),
+  //       tableVal = document.getElementById('tableDiv');
 
-  create.addEventListener('click', function () {
-    var link = document.getElementById('downloadlink');
-     var csvFile = makeCsvFile(makeCSVString(distancePoints));
+  // create.addEventListener('click', function () {
+  //   var link = document.getElementById('downloadlink');
+  //    var csvFile = makeCsvFile(makeCSVString(distancePoints));
+  writeToFile('data.csv',"for the love of pete");
+     // writeToFile('/www/data.csv', "makeCSVString(distancePoints) "  );
      // link.href =csvFile;
 
 
-     // $cordovaFile.checkDir(cordova.file.dataDirectory, "dir/other_dir")
-     //  .then(function (success) {
-     //    // success
-     //  }, function (error) {
-     //    // error
-     //  });
-
-
-
-    // module.controller('MyCtrl', function($scope, $cordovaFile) {
-      // writeExistingFile(cordova.file.dataDirectory, "data.csv", "text")
-      // .then(function (success) {
-      //   console.log("isAvailable9");
-      // }, function (error) {
-      //   console.log(JSON.stringify(error))
-      // });
-  // });
-
-
-  $cordovaFile.checkFile(cordova.file.dataDirectory, "some_file.txt")
-      .then(function (success) {
-        // success
-      }, function (error) {
-        // error
-      });
-
-    tryEmail(csvFile);
-    // link.style.display = 'table';
-  }, false);
-
+   
+  
 
 // var snd = new Audio("notify.wav"); // buffers automatically when created
 // snd.play();  
 }
+
+
+
+// var errorHandler = function (fileName, e) {  
+//     var msg = '';
+
+//     switch (e.name) {
+//         case FileError.QUOTA_EXCEEDED_ERR:
+//             msg = 'Storage quota exceeded';
+//             break;
+//         case FileError.NOT_FOUND_ERR:
+//             msg = 'File not found';
+//             break;
+//         case FileError.SECURITY_ERR:
+//             msg = 'Security error';
+//             break;
+//         case FileError.INVALID_MODIFICATION_ERR:
+//             msg = 'Invalid modification';
+//             break;
+//         case FileError.INVALID_STATE_ERR:
+//             msg = 'Invalid state';
+//             break;
+//         default:
+//             msg = 'Unknown error';
+//             break;
+//     };
+
+//     console.log('Error (' + fileName + '): ' + msg);
+// }
+function writeToFile(dir, dada){
+    console.log("got in function",dir);
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+        console.log("got main dir",dir);
+        dir.getFile("log.txt", {create:true}, function(file) {
+            console.log("got the file", file);
+            logOb = file;
+            writeLog(dada);          
+        });
+    });
+
+}
+
+function writeLog(str) {
+    if(!logOb) return;
+    var log = str + " [" + (new Date()) + "]\n";
+    console.log("going to log "+log);
+    logOb.createWriter(function(fileWriter) {
+        
+        fileWriter.seek(fileWriter.length);
+        
+        var blob = new Blob([log], {type:'text/plain'});
+        fileWriter.write(blob);
+        console.log("ok, in theory i worked");
+    }, fail);
+}
+
+
 
 
 function onError(error) {

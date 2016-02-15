@@ -40,7 +40,7 @@
             <script src="graph.js"></script>
             <script src="signIn.html"></script>
             <script src="mail_out.html"></script>
-            <script src = io.js></script>
+            <script src = "io.js"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
             <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
                 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
@@ -62,12 +62,8 @@
 
                 <button onclick="readTextFile(test.csv)">test import</button>
                 <br/>
-
-
-            <!-- <button onclick="clickedButton()">Go To SignIn</button> -->
-                <br/>
                  <input type="button" value="Go To SignIn" onClick="clickedButton()"/>
-                 <input type="button" value="add another line" onClick="add_graph_line()"/>
+                 
 
                 <script type="text/javascript" language="JavaScript">
                    
@@ -125,6 +121,21 @@
         
         </div> <!-- End of Wrapper -->
         
-        
+        <div class="input-area ch30">
+                <input class="inputBox" id="fileNameInput" placeholder="File name"/>
+                <input class="inputBox" id="textInput" placeholder="Text"/>
+            </div>
+            <div class="action-area ch30">
+                <button class="button" id="writeFileButton">Write</button>
+                <button class="button" id="readFileButton">Read</button>
+                <button class="button" id="deleteFileButton">Delete</button>
+            </div>
+            <div class="result-area ch40">
+                <div class="results">
+                    <div id="result" class="desc"></div>
+                </div>
+                <div class="separator"></div>
+            </div>
+        </div>
     </body>
 </html>

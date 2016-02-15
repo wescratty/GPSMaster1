@@ -121,16 +121,10 @@ function createGraph() {
                           }
                           }
                           chart.update();
-                          });
-    
-    
-    
-    
+                          });    
 }
 
-
 //------------------Attention Brian------------------
-// I suppose this needs to be more abstract so you can use it for file input
 function addDataToChart(aPoint){
     this.aPoint = aPoint;
     var distance = 0.0;
@@ -165,11 +159,6 @@ function addDataToChart(aPoint){
     
 }
 
-
-
-
-
-
 // this was just to test changing existing data on graph
 function add_graph_line(){
     lineChart.datasets[1].points[0].value = 50;
@@ -179,9 +168,6 @@ function add_graph_line(){
     lineChart.update();
     
 }
-
-
-
 
 // unimplemented and maybe depricated
 function flow(){
@@ -204,48 +190,14 @@ function buildLatLonPoints(aPoint){
 
 function coorPoints_to_distance (index) {
     this.index  = index;
-    
-    
     var point_a = coorPoints[this.index].info();  //last point in array
     var point_b = coorPoints[this.index-1].info();// second to last point
     
     //creates a point that is the distance covered
     var temp_dis = getDistanceFromLatLonInKm(point_a[0],point_a[1],point_b[0],point_b[1]); 
     
-
-    
     return temp_dis;
-    
-    
-    
 }
-
-// depricated
-// function non_lat_long_to_distance(dat_array,index){
-//     this.index = index;
-//     var temp_arr = dat_array;
-//     var a = temp_arr[this.index];
-//     var b = temp_arr[this.index-1];
-
-//     var point_a = new point(a[0],a[1]); //last point in array
-    
-//     var point_b = new point(b[0],b[1]);// second to last point
-    
-//     var temp_dis = dv_dt(point_a,point_b);
-//     return temp_dis;
-
-// }
-
-
-// depricated
-// function accumulate_distance(new_distance){
-
-//     total_distance = total_distance+new_distance;   // adds up didstance
-//     distancePoints.push(new point(this.index-1,total_distance)); // makes a point and adds to array
-
-// }
-
-
 
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -275,9 +227,7 @@ function point(x,y){
     }
 }
 
-
-
-
+// takes derivitave of two points
 function dv_dt(a_point,b_point){
     
     this.a_point = a_point.info();
@@ -291,7 +241,6 @@ function dv_dt(a_point,b_point){
     var new_rate = (a_y-b_y)/(a_x-b_x);
     
     return new_rate;
-    
     
 }
 

@@ -17,6 +17,7 @@ var total_distance = 0;
 var lineChart;
 var canvas;
 var ctx;
+var logOb;
 
 
 
@@ -48,12 +49,14 @@ var testdata = [
 
 const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
-// var exec = require('cordova/exec'),
-//     FileError = require('./FileError'),
-//     ProgressEvent = require('./ProgressEvent');
 
 
 document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("touchstart", function() {}, false);
+
+
+
+
 
 function onDeviceReady() {
 
@@ -62,44 +65,11 @@ function onDeviceReady() {
     createGraph();
 });
 
-
-
-    
-    
+    // navigator.splashscreen.hide();
+    var fileApp = new FileApp();
+    fileApp.run();
     
 }
-
-
-
-function gotFS(fileSystem) {
-        fileSystem.root.getFile("readme.txt", {create: true, exclusive: false}, gotFileEntry, fail);
-    }
-
-    function gotFileEntry(fileEntry) {
-        fileEntry.createWriter(gotFileWriter, fail);
-    }
-
-    function gotFileWriter(writer) {
-        writer.onwriteend = function(evt) {
-            console.log("contents of file now 'some sample text'");
-            writer.truncate(11);  
-            writer.onwriteend = function(evt) {
-                console.log("contents of file now 'some sample'");
-                writer.seek(4);
-                writer.write(" different text");
-                writer.onwriteend = function(evt){
-                    console.log("contents of file now 'some different text'");
-                }
-            };
-        };
-        writer.write("some sample text");
-    }
-
-    function fail(error) {
-        console.log(error.code);
-    }
-
-
 
 
 function startLocationPoints(){
@@ -136,8 +106,8 @@ function onSuccess(position) {
     buildLatLonPoints(getGeoPosition(position));
     var len = coorPoints.length;
     if (len>1) {
-    var dis_point = new point(time, coorPoints_to_distance(len-1));
-    addDataToChart(dis_point);
+        var dis_point = new point(time, coorPoints_to_distance(len-1));
+        addDataToChart(dis_point);
     };
 });
     
@@ -157,50 +127,50 @@ function onSuccess(position) {
 
 
 function sendCSV(){
-  //   var anArray = distancePoints;
+    var anArray = distancePoints;
 
     
-  //   // var data = $.parseJSON( txt ).dataOutArray;
+    // var data = $.parseJSON( txt ).dataOutArray;
 
-  //   var $table = $( "<table></table>" );
+    var $table = $( "<table></table>" );
 
-  //   for ( var i = 0; i < anArray.length; i++ ) {
-  //       var dat = anArray[i];
-  //       var $line = $( "<tr></tr>" );
-  //       $line.append( $( "<td></td>" ).html( dat.info()[0]+", "+dat.info()[1]) );
-  //       $table.append( $line );
-  //   }
+    for ( var i = 0; i < anArray.length; i++ ) {
+        var dat = anArray[i];
+        var $line = $( "<tr></tr>" );
+        $line.append( $( "<td></td>" ).html( dat.info()[0]+", "+dat.info()[1]) );
+        $table.append( $line );
+    }
 
-  //   $table.appendTo( $( "#tableDiv" ) );
+    $table.appendTo( $( "#tableDiv" ) );
 
 
-  //   var csvFile = null,
-  //   makeCsvFile = function (csv) {
-  //       var data = new Blob([csv], {type: 'csv'});
+    var csvFile = null,
+    makeCsvFile = function (csv) {
+        var data = new Blob([csv], {type: 'csv'});
 
-  //       // If we are replacing a previously generated file we need to
-  //       // manually revoke the object URL to avoid memory leaks.
-  //       if (csvFile !== null) {
-  //         window.URL.revokeObjectURL(csvFile);
-  //       }
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (csvFile !== null) {
+          window.URL.revokeObjectURL(csvFile);
+        }
 
-  //       csvFile = window.URL.createObjectURL(data);
+        csvFile = window.URL.createObjectURL(data);
 
-  //       return csvFile;
-  //   };
+        return csvFile;
+    };
 
-  //   // console.log("hi there");
+    // console.log("hi there");
 
-  //   var dataOut = anArray.join("")
-  //   var create = document.getElementById('create'),
-  //       tableVal = document.getElementById('tableDiv');
+    var dataOut = anArray.join("")
+    var create = document.getElementById('create'),
+        tableVal = document.getElementById('tableDiv');
 
-  // create.addEventListener('click', function () {
-  //   var link = document.getElementById('downloadlink');
-  //    var csvFile = makeCsvFile(makeCSVString(distancePoints));
-
-     writeToFile('data.csv', makeCSVString(distancePoints)   );
-     // link.href =csvFile;
+  create.addEventListener('click', function () {
+    var link = document.getElementById('downloadlink');
+     link.href = makeCsvFile(makeCSVString(distancePoints));
+  
+     link.style.display = 'table';
+  }, false);
 
 
    
@@ -209,59 +179,6 @@ function sendCSV(){
 // var snd = new Audio("notify.wav"); // buffers automatically when created
 // snd.play();  
 }
-
-
-
-var errorHandler = function (fileName, e) {  
-    var msg = '';
-
-    switch (e.code) {
-        case FileError.QUOTA_EXCEEDED_ERR:
-            msg = 'Storage quota exceeded';
-            break;
-        case FileError.NOT_FOUND_ERR:
-            msg = 'File not found';
-            break;
-        case FileError.SECURITY_ERR:
-            msg = 'Security error';
-            break;
-        case FileError.INVALID_MODIFICATION_ERR:
-            msg = 'Invalid modification';
-            break;
-        case FileError.INVALID_STATE_ERR:
-            msg = 'Invalid state';
-            break;
-        default:
-            msg = 'Unknown error';
-            break;
-    };
-
-    console.log('Error (' + fileName + '): ' + msg);
-}
-
-function writeToFile(fileName, data) {
-        // data = JSON.stringify(data, null, '\t');
-        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
-            directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
-                fileEntry.createWriter(function (fileWriter) {
-                    fileWriter.onwriteend = function (e) {
-                        // for real-world usage, you might consider passing a success callback
-                        console.log('Write of file "' + fileName + '"" completed.');
-                    };
-
-                    fileWriter.onerror = function (e) {
-                        // you could hook this up with our global error handler, or pass in an error callback
-                        console.log('Write failed: ' + e.toString());
-                    };
-
-                    var blob = new Blob([data], { type: 'text/plain' });
-                    fileWriter.write(blob);
-                }, errorHandler.bind(null, fileName));
-            }, errorHandler.bind(null, fileName));
-        }, errorHandler.bind(null, fileName));
-    }
-
-
 
 
 function onError(error) {
@@ -305,14 +222,7 @@ function makeCSVString(an_array){
 return temp;
         
 }
-// function triNum(){
-//     var valueArray= [];
-//     for (var i = 1; i <=20; i++) {
-//         valueArray[i] =new point(i, (i*(i+1))/2);
-//     };
-//     return valueArray;
-    
-// }
+
 
 function tryEmail(afile){
     this.afile = afile;
@@ -332,42 +242,119 @@ function tryEmail(afile){
     }
 );
 
-//     module.controller('ThisCtrl', function($cordovaEmailComposer) {
-
-//  $cordovaEmailComposer.isAvailable().then(function() {
-//    // is available
-//  }, function () {
-//    // not available
-//  });
-
-//   var email = {
-//     to: 'wescratty@gmail.com',
-//     // cc: 'erika@mustermann.de',
-//     // bcc: ['john@doe.com', 'jane@doe.com'],
-//     attachments: [
-//       'file://img/logo.png',
-//       'res://icon.png',
-//       'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
-//       'file://README.pdf'
-//     ],
-//     subject: 'Cordova Icons',
-//     body: 'How are you? Nice greetings from Leipzig',
-//     isHtml: true
-//   };
-
-//  $cordovaEmailComposer.open(email).then(null, function () {
-//    // user cancelled email
-//  });
-// });
 }
 
 
 
+function FileApp() {
+}
+//  $.getScript('/io.js', function()
+// {
+    
 
 
 
 
+FileApp.prototype = {
+    fileSystemHelper: null,
+    fileNameField: null,
+    textField: null,
+     
+    run: function() {
+        var that = this,
+            writeFileButton = document.getElementById("writeFileButton"),
+            readFileButton = document.getElementById("readFileButton"),
+            deleteFileButton = document.getElementById("deleteFileButton");
+        
+        that.fileNameField = document.getElementById("fileNameInput");
+        that.textField = document.getElementById("textInput");
+        
+        writeFileButton.addEventListener("click",
+                                         function() { 
+                                             that._writeTextToFile.call(that); 
+                                         });
+        
+        readFileButton.addEventListener("click",
+                                        function() {
+                                            that._readTextFromFile.call(that);
+                                        });
+        
+        deleteFileButton.addEventListener("click",
+                                          function() {
+                                              that._deleteFile.call(that)
+                                          });
+        
+        fileSystemHelper = new FileSystemHelper();
+    },
+    
+    _deleteFile: function () {
+        var that = this,
+            fileName = that.fileNameField.value;
+        
+        if (that._isValidFileName(fileName)) {
+            fileSystemHelper.deleteFile(fileName, that._onSuccess, that._onError);
+        }
+        else {
+            var error = { code: 44, message: "Invalid filename"};
+            that._onError(error);
+        }
+    },
+    
+    _readTextFromFile: function() {
+        var that = this,
+            fileName = that.fileNameField.value;
+        
+        if (that._isValidFileName(fileName)) {
+            fileSystemHelper.readTextFromFile(fileName, that._onSuccess, that._onError);
+        }
+        else {
+            var error = { code: 44, message: "Invalid filename"};
+            that._onError(error);
+        }
+    },
+    
+    _writeTextToFile: function() {
+        var that = this,
+            fileName = that.fileNameField.value,
+            text = that.textField.value;
 
+        if (that._isValidFileName(fileName)) {
+            fileSystemHelper.writeLine(fileName, text, that._onSuccess, that._onError)
+        }
+        else {
+            var error = { code: 44, message: "Invalid filename"};
+            that._onError(error);
+        }
+    },
+    
+    _onSuccess: function(value) {
+        var notificationBox = document.getElementById("result");
+        notificationBox.textContent = value;
+    },
+    
+    _onError: function(error) {
+
+        var errorCodeDiv = document.createElement("div"),
+            errorMessageDiv = document.createElement("div"),
+            notificationBox = document.getElementById("result");
+
+        errorCodeDiv.textContent = "Error code: " + error.name;
+        errorMessageDiv.textContent = "Message: " + error.message;
+        
+        notificationBox.innerHTML = "";
+        notificationBox.appendChild(errorCodeDiv);
+        notificationBox.appendChild(errorMessageDiv);
+    },
+    
+    _isValidFileName: function(fileName) {
+        //var patternFileName = /^[\w]+\.[\w]{1,5}$/;
+
+        return fileName.length > 2;
+    }
+}
+
+
+// });
 
 
 
