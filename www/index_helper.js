@@ -122,7 +122,7 @@ function onSuccess(position) {
 
 
 function sendCSV(){
-    var anArray = triNum();
+    var anArray = distancePoints;
 
     
     // var data = $.parseJSON( txt ).dataOutArray;
@@ -132,7 +132,7 @@ function sendCSV(){
     for ( var i = 0; i < anArray.length; i++ ) {
         var dat = anArray[i];
         var $line = $( "<tr></tr>" );
-        $line.append( $( "<td></td>" ).html( dat) );
+        $line.append( $( "<td></td>" ).html( dat.info()[0]+", "+dat.info()[1]) );
         $table.append( $line );
     }
 
@@ -154,6 +154,7 @@ function sendCSV(){
         return csvFile;
     };
 
+    // console.log("hi there");
 
     var dataOut = anArray.join("")
     var create = document.getElementById('create'),
@@ -161,7 +162,7 @@ function sendCSV(){
 
   create.addEventListener('click', function () {
     var link = document.getElementById('downloadlink');
-    link.href = makeCsvFile(dataOut);
+    link.href = makeCsvFile(makeCSVString(distancePoints));
     link.style.display = 'table';
   }, false);
 
@@ -202,14 +203,24 @@ function goToMail_out(){
     window.location = 'mail_out.html'
 
 }
-function triNum(){
-    var valueArray= [];
-    for (var i = 1; i <=20; i++) {
-        valueArray[i] =new point(i, (i*(i+1))/2);
-    };
-    return valueArray;
-    
+
+function makeCSVString(an_array){
+    var temp;
+    for (var i = 0; i< an_array.length; i++) {
+        var dat = an_array[i];
+        temp = temp+dat.info()[0]+", "+dat.info()[1]+"\n";
 }
+return temp;
+        
+}
+// function triNum(){
+//     var valueArray= [];
+//     for (var i = 1; i <=20; i++) {
+//         valueArray[i] =new point(i, (i*(i+1))/2);
+//     };
+//     return valueArray;
+    
+// }
 
 
 
