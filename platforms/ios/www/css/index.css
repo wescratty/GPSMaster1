@@ -78,6 +78,13 @@ h1 {
     text-align:center;
 }
 
+
+div{
+    color: #fff;
+    font-family: Tahoma, Verdana, Segoe, sans-serif;
+    padding: 10px;
+}
+
 .event {
     border-radius:4px;
     -webkit-border-radius:4px;
@@ -113,3 +120,69 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+
+
+
+.wrapper{
+    cursor: pointer;
+    background-color:#2E4272;
+    width: 505px;
+}
+.chart{
+    cursor: pointer;
+    background-color:#4F628E;
+    /*width: 505px;*/
+
+}
+/*.sidebuttomPanel{
+     position: relative;
+    z-index: 100;
+    cursor: pointer;
+    background-color:#7887AB;
+    
+    width: 480px;
+}*/
+
+
+
+
+
+/*.wrapper{
+    margin:0 auto;
+    width: 505px;
+    height: 305px;
+    clear:both;
+}
+
+
+.lowerbuttomPanel{
+    border: 1px solid #55ff77;
+}
+
+.sidebuttomPanel{
+    border: 1px solid #448855;
+}
+
+
+.sidebuttomPanel{
+    clear:none;
+    float: right;
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

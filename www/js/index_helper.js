@@ -53,6 +53,7 @@ const K_MILL_SEC = 1000;
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("touchstart", function() {}, false);
 
+
 function onDeviceReady() {
   
     
@@ -321,7 +322,7 @@ _writeTextToFile: function() {
     // text = that.textField.value;
     console.log(fileName);
 
-    console.log("Success! Look for the file at " + that.URL)
+
     
     if (that._isValidFileName(fileName)) {
         fileSystemHelper.writeLine(fileName, text, that._onSuccess, that._onError)

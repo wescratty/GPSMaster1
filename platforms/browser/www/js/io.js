@@ -57,7 +57,7 @@ FileSystemHelper.prototype = {
 		fileSystem.root.getFile(fileName, options,
 								function(fileEntry) {
 									that._createFileWriter.call(that, fileEntry, text, onSuccess, onError);
-									console.log("Success! Look for the file at " + fileEntry.file)
+
 
 								},
 								function (error) {
@@ -75,7 +75,7 @@ FileSystemHelper.prototype = {
                                     var len = fileWriter.length;
                                     fileWriter.seek(len);
                                     fileWriter.write(text + '\n');
-                                    var message = "Wrote: " + text;
+                                    var message = "Wrote to file " ;
                                     onSuccess.call(that, message);
                                 },
                     			function(error) {

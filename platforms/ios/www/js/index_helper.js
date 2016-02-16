@@ -209,10 +209,10 @@ function makeCSVString(an_array){
     var temp;
     for (var i = 0; i< an_array.length; i++) {
         var dat = an_array[i];
-        temp = temp+dat.info()[0]+", "+dat.info()[1]+"\n\r\t";
+        temp = temp+dat.info()[0]+", "+dat.info()[1]+"\n\r\n";
     }
     
-    return temp+"\n\r\t";
+    return temp+"\n\r\n";
     
 }
 
@@ -270,6 +270,7 @@ run: function() {
     writeFileButton.addEventListener("click",
                                      function() {
                                      that._writeTextToFile.call(that);
+
                                      });
     
     readFileButton.addEventListener("click",
@@ -320,7 +321,7 @@ _writeTextToFile: function() {
     // text = that.textField.value;
     console.log(fileName);
 
-
+    console.log("Success! Look for the file at " + that.URL)
     
     if (that._isValidFileName(fileName)) {
         fileSystemHelper.writeLine(fileName, text, that._onSuccess, that._onError)

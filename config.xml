@@ -23,6 +23,15 @@
     <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
     <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root" />
     <preference name="useBrowserHistory" value="false" />
+     <platform name="android">
+        <preference name="Orientation" value="sensorLandscape" />
+    </platform>
+     <platform name="ios">
+        <preference name="Orientation" value="all" />
+    </platform>
+     <platform name="browser">
+        <preference name="Orientation" value="Landscape" />
+    </platform>
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>

@@ -1,7 +1,7 @@
 
 
 
-
+window.addEventListener('onclick',pos,false);
 
 function createGraph() {
     
@@ -49,8 +49,10 @@ function createGraph() {
     
     window.lineChart = new Chart(ctx).Line(data, options);
     window.lineChart.store = new Array();
+}
     
-    $('#lineOne').click(function () {
+    // $('#pos').click(function () {
+        function pos(){
                         var label = 'First';
                         var chart = window.lineChart;
                         var store = chart.store;
@@ -73,8 +75,9 @@ function createGraph() {
                         }
                         }
                         chart.update();
-                        });
-    $('#lineTwo').click(function () {
+                        }
+    // $('#vol').click(function () {
+         function vol(){
                         var label = 'Second';
                         var chart = window.lineChart;
                         var store = chart.store;
@@ -97,8 +100,9 @@ function createGraph() {
                         }
                         }
                         chart.update();
-                        });
-    $('#lineThree').click(function () {
+                        }
+    // $('#acc').click(function () {
+         function acc(){
                           var label = 'Third';
                           var chart = window.lineChart;
                           var store = chart.store;
@@ -121,8 +125,8 @@ function createGraph() {
                           }
                           }
                           chart.update();
-                          });    
-}
+                          }   
+// }
 
 //------------------Attention Brian------------------
 function addDataToChart(aPoint){

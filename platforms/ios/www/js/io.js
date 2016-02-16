@@ -57,7 +57,8 @@ FileSystemHelper.prototype = {
 		fileSystem.root.getFile(fileName, options,
 								function(fileEntry) {
 									that._createFileWriter.call(that, fileEntry, text, onSuccess, onError);
-									console.log(fileEntry);
+
+
 								},
 								function (error) {
 									error.message = "Failed creating file.";
@@ -70,10 +71,11 @@ FileSystemHelper.prototype = {
 	_createFileWriter: function(fileEntry, text, onSuccess, onError) {
 		var that = this;
 		fileEntry.createWriter(function(fileWriter) {
+			console.log(fileEntry.fullPath);
                                     var len = fileWriter.length;
                                     fileWriter.seek(len);
                                     fileWriter.write(text + '\n');
-                                    var message = "Wrote: " + text;
+                                    var message = "Wrote to file " ;
                                     onSuccess.call(that, message);
                                 },
                     			function(error) {
