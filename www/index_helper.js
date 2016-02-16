@@ -69,7 +69,29 @@ function onDeviceReady() {
     var fileApp = new FileApp();
     fileApp.run();
 
-    
+    console.log(device.platform);
+
+    if (device.platform == "Android") {
+        window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (dir) {
+            console.log("Main Dir:", dir);
+            dir.getFile("export.csv", {create: true}, function (file) {
+                console.log("File: ", file);
+                logOb = file;
+                //writeLog("App started");
+            });
+        });
+    }
+    else if (device.platform == "iOS") {
+        window.resolveLocalFileSystemURL(cordova.file.documentsDirectory, function (dir) {
+            console.log("Main Dir:", dir);
+            dir.getFile("export.csv", {create: true}, function (file) {
+                console.log("File: ", file);
+                logOb = file;
+                //writeLog("App started");
+            });
+        });
+    }
+
 }
 
 
@@ -231,16 +253,17 @@ function tryEmail(the_message){
     cordova.plugins.email.isAvailable(
     function (isAvailable) {
         // alert('Service is not available') unless isAvailable;
-        console.log("isAvailable1");
+        console.log("isAvailable");
         
         cordova.plugins.email.open({
-    to:      'DewyCox@gmail.com',
-    cc:      '',
-    bcc:     [],
-    subject: 'Cordova data',
-    body:    this.the_message,
+            to:      'DewyCox@gmail.com',
+            cc:      '',
+            bcc:     [],
+            subject: 'Cordova data',
+            body:    this.the_message,
+            attachments: [logOb.nativeURL]
     
-});
+        });
     }
 );
 
@@ -252,9 +275,63 @@ function FileApp() {
 }
 //  $.getScript('/io.js', function()
 // {
-    
 
 
+
+
+function writeF() {
+    if(!logOb) return;
+    //var log = str + " [" + (new Date()) + "]\n";
+    var text = "Distance"+"%0D%0A"+makeCSVString(distancePoints)+"Velocity"+"%0D%0A"+makeCSVString(ratePoints)+"Acceleration"+"%0D%0A"+makeCSVString(accelerationPoints);
+    console.log("Writing to file: "+text);
+    logOb.createWriter(function(fileWriter) {
+
+        fileWriter.seek(fileWriter.length);
+
+        var blob = new Blob([text], {type:'text/csv'});
+        fileWriter.write(blob);
+        console.log("Finished writing");
+    }, fail);
+}
+
+function readF() {
+    logOb.file(function(file) {
+        var reader = new FileReader();
+
+        reader.onloadend = function(e) {
+            console.log(this.result);
+        };
+
+        reader.readAsText(file);
+    }, fail);
+}
+
+function deleteF() {
+/*    if(!logOb) return;
+    logOb.createWriter(function(fileWriter) {
+
+        fileWriter.seek(fileWriter.length);
+
+        var blob = new Blob("", {type:'text/csv'});
+        fileWriter.write(blob);
+        console.log("Finished deleting");
+    }, fail);*/
+    logOb.clearData();
+}
+/*
+function emailMessage() {
+    console.log(logOb.nativeURL)
+    window.plugin.email.open({
+        to:      ['andrew.maclean@umontana.edu'],
+        subject: 'atty',
+        body:    'log file',
+
+    });
+}*/
+
+function fail() {
+    console.log('Something failed...')
+}
 
 
 FileApp.prototype = {
@@ -273,18 +350,27 @@ FileApp.prototype = {
         
         writeFileButton.addEventListener("click",
                                          function() { 
-                                             that._writeTextToFile.call(that); 
+                                             //that._writeTextToFile.call(that);
+                                             writeF();
                                          });
         
         readFileButton.addEventListener("click",
                                         function() {
-                                            that._readTextFromFile.call(that);
+                                            //that._readTextFromFile.call(that);
+                                            deleteF();
                                         });
         
         deleteFileButton.addEventListener("click",
                                           function() {
-                                              that._deleteFile.call(that)
+                                              //that._deleteFile.call(that)
+                                              tryEmail();
                                           });
+
+        emailFileButton.addEventListener("click",
+            function() {
+                //that._deleteFile.call(that)
+                tryEmail();
+            });
         
         fileSystemHelper = new FileSystemHelper();
     },
@@ -320,7 +406,7 @@ FileApp.prototype = {
     _writeTextToFile: function() {
         var that = this,
             fileName = that.fileNameField.value,
-            text = "Distance"+"%0D%0A"+makeCSVString(distancePoints)+"Volocity"+"%0D%0A"+makeCSVString(ratePoints)+"Acceleration"+"%0D%0A"+makeCSVString(accelerationPoints);
+            text = "Distance"+"%0D%0A"+makeCSVString(distancePoints)+"Velocity"+"%0D%0A"+makeCSVString(ratePoints)+"Acceleration"+"%0D%0A"+makeCSVString(accelerationPoints);
             // text = that.textField.value;
 
         if (that._isValidFileName(fileName)) {
