@@ -19,6 +19,10 @@ var canvas;
 var ctx;
 var logOb;
 
+var distance = [];
+var rate = [];
+var acceleration = [];
+
 
 
 // this is x^3

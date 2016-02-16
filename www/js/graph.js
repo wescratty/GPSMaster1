@@ -130,9 +130,10 @@ function createGraph() {
 //------------------Attention Brian------------------
 function addDataToChart(aPoint){
     this.aPoint = aPoint;
-    var distance = 0.0;
-    var rate = 0.0;
-    var acceleration = 0.0;
+    var dist = 0.0;
+    var rat = 0.0;
+    var acc = 0.0;
+    
     
     
 
@@ -141,24 +142,31 @@ function addDataToChart(aPoint){
     var  num_dis_points = distancePoints.length;
     if (num_dis_points>0) {        // once we have atleast 2 lat long we can get a distance
        
-        distance =distancePoints[num_dis_points-1].info()[1];
-        total_distance = total_distance+distance;
+        dist=distancePoints[num_dis_points-1].info()[1];
+        total_distance = total_distance+dist;
+        distance.push(total_distance);
 
         if (num_dis_points>1) {
-            rate = dv_dt(distancePoints[num_dis_points-1],distancePoints[num_dis_points-2]);
-            ratePoints.push(new point(num_dis_points-2,rate));
+            rat = dv_dt(distancePoints[num_dis_points-1],distancePoints[num_dis_points-2]);
+            rate.push(rat);
+            ratePoints.push(new point(num_dis_points-2,rat));
             var  num_rate_points = ratePoints.length;
             if (num_rate_points>1) {
-                acceleration = dv_dt(ratePoints[num_rate_points-1],ratePoints[num_rate_points-2]);
-                accelerationPoints.push(new point(num_rate_points-2,acceleration));
+                acc =dv_dt(ratePoints[num_rate_points-1],ratePoints[num_rate_points-2]);
+                acceleration.push(acc);
+                accelerationPoints.push(new point(num_rate_points-2,acc));
                 
             };
         };
         
     };
-    
-    lineChart.addData([total_distance,rate,acceleration],time);
+
+    if (num_dis_points>3) {
+      lineChart.addData([distance[time],rate[time],acceleration[time]],time);
     time = time+1;
+    };
+    
+    
     
 }
 
