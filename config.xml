@@ -19,8 +19,10 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" />
     <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
-<preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root" />
+    <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root" />
+    <preference name="useBrowserHistory" value="false" />
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
@@ -28,4 +30,5 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <engine name="ios" spec="~4.0.1" />
 </widget>

@@ -10,10 +10,16 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "de.appplant.cordova.plugin.email-composer": {
+        "cordova-plugin-file": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-file": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-email": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },

@@ -6,26 +6,6 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-        "id": "cordova-plugin-geolocation.geolocation",
-        "clobbers": [
-            "navigator.geolocation"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-        "id": "cordova-plugin-geolocation.PositionError",
-        "runs": true
-    },
-    {
-        "file": "plugins/de.appplant.cordova.plugin.email-composer/www/email_composer.js",
-        "id": "de.appplant.cordova.plugin.email-composer.EmailComposer",
-        "clobbers": [
-            "cordova.plugins.email",
-            "plugin.email"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
         "id": "cordova-plugin-file.DirectoryEntry",
         "clobbers": [
@@ -174,6 +154,26 @@ module.exports = [
         "merges": [
             "cordova"
         ],
+        "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-email/www/email_composer.js",
+        "id": "cordova-plugin-email.EmailComposer",
+        "clobbers": [
+            "cordova.plugins.email",
+            "plugin.email"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+        "id": "cordova-plugin-geolocation.geolocation",
+        "clobbers": [
+            "navigator.geolocation"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+        "id": "cordova-plugin-geolocation.PositionError",
         "runs": true
     }
 ];

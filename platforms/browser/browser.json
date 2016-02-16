@@ -7,12 +7,7 @@
         "files": {
             "res/xml/config.xml": {
                 "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"EmailComposer\"><param name=\"browser-package\" value=\"de.appplant.cordova.emailcomposer.EmailComposer\" /></feature>",
-                            "count": 1
-                        }
-                    ]
+                    "/*": []
                 }
             }
         }
@@ -21,30 +16,21 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "de.appplant.cordova.plugin.email-composer": {
+        "cordova-plugin-file": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-file": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-email": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
     "dependent_plugins": {},
     "modules": [
-        {
-            "file": "plugins/de.appplant.cordova.plugin.email-composer/www/email_composer.js",
-            "id": "de.appplant.cordova.plugin.email-composer.EmailComposer",
-            "pluginId": "de.appplant.cordova.plugin.email-composer",
-            "clobbers": [
-                "cordova.plugins.email",
-                "plugin.email"
-            ]
-        },
-        {
-            "file": "plugins/de.appplant.cordova.plugin.email-composer/src/browser/EmailComposerProxy.js",
-            "id": "de.appplant.cordova.plugin.email-composer.EmailComposerProxy",
-            "pluginId": "de.appplant.cordova.plugin.email-composer",
-            "runs": true
-        },
         {
             "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
             "id": "cordova-plugin-file.DirectoryEntry",
@@ -223,11 +209,22 @@
             "merges": [
                 "window.FileSystem"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-email/www/email_composer.js",
+            "id": "cordova-plugin-email.EmailComposer",
+            "pluginId": "cordova-plugin-email",
+            "clobbers": [
+                "cordova.plugins.email",
+                "plugin.email"
+            ]
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-whitelist": "1.2.1",
-        "de.appplant.cordova.plugin.email-composer": "0.8.3dev",
-        "cordova-plugin-file": "4.1.1"
+        "cordova-plugin-file": "4.1.1",
+        "cordova-plugin-console": "1.0.2",
+        "cordova-plugin-email": "1.1.0",
+        "cordova-plugin-geolocation": "2.1.0"
     }
 }

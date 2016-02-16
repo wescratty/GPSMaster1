@@ -8,7 +8,6 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
-    <gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -16,6 +15,8 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" />
     <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
     <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root" />
+    <preference name="useBrowserHistory" value="false" />
 </widget>

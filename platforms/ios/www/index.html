@@ -29,102 +29,97 @@
                 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
                 <script src="//www.chartjs.org/assets/Chart.min.js"></script>
                 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    </head>
+                <script src="js/Chart.js"></script>
+                <script src="js/location.js"></script>
+                <script src="js/index_helper.js"></script>
+                <script src="js/graph.js"></script>
+                <script src = "js/io.js"></script>
+                <script src="signIn.html"></script>
+                <script src="mail_out.html"></script>
+                </head>
     <body>
         <div id="wrapper">
             
-            <canvas id="updating-chart" width="300" height="200"></canvas>
-            <script src="Chart.js"></script>
+            <canvas id="updating-chart" width="300" height="300"></canvas>
+            <br/>
+            <button onclick="startLocationPoints()">Start/Stop location</button>
+            <br/>
+            <button onclick="load_test_data()">load testdata</button>
+            <br/>
+            <button onclick="sendCSV()">Export .csv</button>
+            <br/>
+            <button onclick="mailToMe(); goToMail_out();">e-mail me my data</button>
+            <br/>
+            <button onclick="tryEmail();">try email</button>
+            <br/>
+            <button onclick="readTextFile(test.csv)">test import</button>
+            <br/>
+            <input type="button" value="Go To SignIn" onClick="clickedButton()"/>
             
-            <script src="index_helper.js"></script>
-            <script src="graph.js"></script>
-            <script src="signIn.html"></script>
-            <script src="mail_out.html"></script>
-            <script src = io.js></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-            <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-                <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-                <br/>
-                <button onclick="startLocationPoints()">Start/Stop location</button>
-                <br/>
-                <button onclick="load_test_data()">load testdata</button>
+            <form name="login_form" method="post">
+            <br>
+            </form>
+            <script type="text/javascript">
                 
-                <br/>
-                <button onclick="sendCSV()">Export .csv</button>
-                <br/>
-                <button onclick="mailToMe(); goToMail_out();">e-mail me my data</button>
-                <br/>
-
-                 <button onclick="tryEmail();">try email</button>
-                <br/>
                 
-                <!-- <button onclick="clickedButton()">Go To SignIn</button> -->
-
-                <button onclick="readTextFile(test.csv)">test import</button>
-                <br/>
-
-
-            <!-- <button onclick="clickedButton()">Go To SignIn</button> -->
-                <br/>
-                 <input type="button" value="Go To SignIn" onClick="clickedButton()"/>
-                 <input type="button" value="add another line" onClick="add_graph_line()"/>
-
-                <script type="text/javascript" language="JavaScript">
-                   
+                <!-- Start of Jquerry -->
                 
-                    </script>
-                <form name="login_form" method="post">
-                    
-                    <br>
-                    
-                   
-                    
-                </form>
-                <script type="text/javascript">
-
-
-                    <!-- Start of Jquerry -->
-
-                    $("document").ready(function() {
-                                        $("#wrapper").css("width", 500);
-                                        $("#wrapper").css("margin", "auto");
-                                         $("#latLonWrapper").css("float", "left");
-                                         $("#tableWrapper").css("float", "right");
-                                         $("#lineOne").css("color", "red");
-                                         $("#lineTwo").css("color", "blue");
-                                         $("#lineThree").css("color", "green");
-                                        // $.getScript('/index_helper.js');
-                                        
-                                        });
-                                        
-                    <!-- End of Jquerry -->
-                                        
-                    </script>
-                
-                <!-- <p id = "p_two"> -->
-                <!-- <a href="mailto:wescratty@gmail.com">
-                 </p> -->
-                 <div id="latLonWrapper">
+                $("document").ready(function() {
+                                    $("#wrapper").css("width", 300);
+                                    $("#wrapper").css("margin", "auto");
+                                    $("#latLonWrapper").css("float", "left");
+                                    $("#tableWrapper").css("float", "right");
+                                    $("#lineOne").css("color", "red");
+                                    $("#lineTwo").css("color", "blue");
+                                    $("#lineThree").css("color", "green");
+                                    // $.getScript('/index_helper.js');
+                                    
+                                    });
+                                    
+                                    <!-- End of Jquerry -->
+                                    
+                </script>
+            
+            <div id="latLonWrapper">
                 <p id="geolocation">Finding geolocation...</p>
-                </div>
-                <div id="tableWrapper">
+            </div>
+            <div id="tableWrapper">
                 <div id = "tableDiv">
                 </div>
                 <button id="create">Create CSV</button> <a download="data.csv" id="downloadlink" style="display: none">Download</a>
-                </div>
-                <div>
-<a href="#" id='lineOne'>Toggle Position</a>
-</div>
-<div>
-<a href="#" id='lineTwo'>Toggle Volocity</a>
-</div>
-<div>
-<a href="#" id='lineThree'>Toggle Exceleration</a>
-</div>
-                
-        
+            </div>
+            <div>
+                <a href="#" id='lineOne'>Toggle Position</a>
+            </div>
+            <div>
+                <a href="#" id='lineTwo'>Toggle Volocity</a>
+            </div>
+            <div>
+                <a href="#" id='lineThree'>Toggle Exceleration</a>
+            </div>
+            
+            
         </div> <!-- End of Wrapper -->
         
+        <input type="file" id="file-input" />
+        <h3>Contents of the file:</h3>
+        <pre id="file-content"></pre>
         
+        <div class="input-area ch30">
+            <input class="inputBox" id="fileNameInput" value="Data.csv"/>
+            <input class="inputBox" id="textInput" placeholder="Text"/>
+        </div>
+        <div class="action-area ch30">
+            <button class="button" id="writeFileButton">Write</button>
+            <button class="button" id="readFileButton">Read</button>
+            <button class="button" id="deleteFileButton">Delete</button>
+        </div>
+        <div class="result-area ch40">
+            <div class="results">
+                <div id="result" class="desc"></div>
+            </div>
+            <div class="separator"></div>
+        </div>
+        </div>
     </body>
 </html>

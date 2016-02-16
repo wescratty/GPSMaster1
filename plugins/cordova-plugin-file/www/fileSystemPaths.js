@@ -55,6 +55,7 @@ channel.onCordovaReady.subscribe(function() {
     function after(paths) {
         for (var k in paths) {
             exports.file[k] = paths[k];
+            console.log(paths[k]);
         }
         channel.initializationComplete('onFileSystemPathsReady');
     }
