@@ -137,7 +137,37 @@ function addDataToChart(aPoint){
     
     
 
-    distancePoints.push(this.aPoint);
+   distancePoints.push(this.aPoint);
+   // var  num_dis_points = distancePoints.length;
+   //  if (num_dis_points>0) {        // once we have atleast 2 lat long we can get a distance
+       
+   //      dist=distancePoints[num_dis_points-1].info()[1];
+   //      total_distance = total_distance+dist;
+   //      distance.push(total_distance);
+
+   //      if (num_dis_points>1) {
+   //          rat = dv_dt(distancePoints[num_dis_points-1],distancePoints[num_dis_points-2]);
+   //          rate.push(rat);
+   //          ratePoints.push(new point(num_dis_points-2,rat));
+   //          var  num_rate_points = ratePoints.length;
+            
+   //      }else{
+   //        rate.push(0);
+   //        ratePoints.push(new point(num_dis_points-1,0));
+
+   //      };
+   //      if (num_dis_points>2) {
+   //              acc =dv_dt(ratePoints[num_rate_points-1],ratePoints[num_rate_points-2]);
+   //              acceleration.push(acc);
+   //              accelerationPoints.push(new point(num_rate_points-2,acc));
+                
+   //          }
+   //          else{
+   //            acceleration.push(0);
+   //            accelerationPoints.push(new point(num_dis_points-2,0));
+   //          };
+        
+   //  };
     
     var  num_dis_points = distancePoints.length;
     if (num_dis_points>0) {        // once we have atleast 2 lat long we can get a distance
@@ -161,10 +191,11 @@ function addDataToChart(aPoint){
         
     };
 
-    if (num_dis_points>3) {
-      lineChart.addData([distance[time],rate[time],acceleration[time]],time);
+    if (num_dis_points>2) {
+      lineChart.addData([distance[time+2],rate[time+1],acceleration[time]],time);
     time = time+1;
     };
+    
     
     
     

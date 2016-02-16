@@ -132,7 +132,7 @@ div{
 .chart{
     cursor: pointer;
     background-color:#4F628E;
-    width: 505px;
+    /*width: 505px;*/
 
 }
 /*.sidebuttomPanel{

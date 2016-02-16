@@ -19,31 +19,39 @@ var canvas;
 var ctx;
 var logOb;
 
+var distance = [];
+var rate = [];
+var acceleration = [];
+
 
 
 // this is x^3
 var testdata = [
-                [ 0 ,  0 ],
-                [ 1 ,  1 ],
-                [ 2 ,  8 ],
-                [ 3 ,  27 ],
-                [ 4 ,  64 ],
-                [ 5 ,  125 ],
-                [ 6 ,  216 ],
-                [ 7 ,  343 ],
-                [ 8 ,  512 ],
-                [ 9 ,  729 ],
-                [ 10 ,  1000 ],
-                [ 11 ,  1331 ],
-                [ 12 ,  1728 ],
-                [ 13 ,  2197 ],
-                [ 14 ,  2744 ],
-                [ 15 ,  3375 ],
-                [ 16 ,  4096 ],
-                [ 17 ,  4913 ],
-                [ 18 ,  5832 ],
-                [ 19 ,  6859 ],
-                [ 20 ,  8000 ]
+[ 0 ,  0 ],
+[ 1 ,  0.258819 ],
+[ 2 ,  0.5 ],
+[ 3 ,  0.7071068 ],
+[ 4 ,  0.8660254 ],
+[ 5 ,  0.9659258 ],
+[ 6 ,  1 ],
+[ 7 ,  0.9659258 ],
+[ 8 ,  0.8660254 ],
+[ 9 ,  0.7071068 ],
+[ 10 ,  0.5 ],
+[ 11 ,  0.258819 ],
+[ 12 ,  0.0 ],
+[ 13 ,  -0.258819 ],
+[ 14 ,  -0.5 ],
+[ 15 ,  -0.7071068 ],
+[ 16 ,  -0.8660254 ],
+[ 17 ,  -0.9659258 ],
+[ 18 ,  -1 ],
+[ 19 ,  -0.9659258 ],
+[ 20 ,  -0.8660254 ],
+[ 21 ,  -0.7071068 ],
+[ 22 ,  -0.5 ],
+[ 23 ,  -0.258819 ],
+[ 24 ,  0.0 ]
                 ];
 
 
@@ -52,6 +60,7 @@ const K_MILL_SEC = 1000;
 
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("touchstart", function() {}, false);
+
 
 function onDeviceReady() {
   
@@ -321,7 +330,7 @@ _writeTextToFile: function() {
     // text = that.textField.value;
     console.log(fileName);
 
-    console.log("Success! Look for the file at " + that.URL)
+
     
     if (that._isValidFileName(fileName)) {
         fileSystemHelper.writeLine(fileName, text, that._onSuccess, that._onError)
