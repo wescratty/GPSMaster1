@@ -205,6 +205,32 @@ function addDataToChart(aPoint){
     
     
 }
+function reset(){
+  // if (lineChart.dataSets.length > 0) {
+            // REMOVE LATEST DATASET AND VALIDATE
+            window.lineChart.destroy();
+            createGraph();
+            
+
+            // GROWL
+            // growl("danger", dataset.title);
+         // } 
+         // else {
+
+        //     // GROWL
+        //     growl("info", "Kept latest");
+        // }
+// console.log(lineChart.datasets.length);
+// console.log(lineChart.datasets[0].length);
+//   for (var i = 0; i< lineChart.datasets.length; i++) {
+    
+//       lineChart.datasets.pop();
+    
+    
+//   };
+    
+    lineChart.update();
+}
 
 // this was just to test changing existing data on graph
 function add_graph_line(){

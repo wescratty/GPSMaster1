@@ -86,6 +86,14 @@ function startLocationPoints(){
 }
 
 function load_test_data(){
+    
+
+    // console.log(dv_dt(new point(3,20),new point(0,0)));
+    //  console.log("\n");
+    // console.log(dv_dt(new point(6,33),new point(3,20)));
+    // console.log("\n");
+    // console.log(dv_dt(new point(9,43),new point(6,33)));
+
     for (var i = 0;i< testdata.length;i++) {
         var temp_arr = testdata[i];
         var a_point = new point(temp_arr[0],temp_arr[1])
