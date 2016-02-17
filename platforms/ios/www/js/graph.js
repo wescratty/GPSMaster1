@@ -5,7 +5,7 @@
 function createGraph() {
     
     var data = {
-    labels: [0],
+    labels: [],
     datasets: [{
                label: "First",
                fillColor: "rgba(220,220,220,0.2)",
@@ -14,7 +14,7 @@ function createGraph() {
                pointStrokeColor: "#fff",
                pointHighlightFill: "#fff",
                pointHighlightStroke: "rgba(220,220,220,1)",
-               data: [0]
+               data: []
                },{
                label: "Second",
                fillColor: "rgba(0, 191, 255,0.2)",
@@ -23,7 +23,7 @@ function createGraph() {
                pointStrokeColor: "#fff",
                pointHighlightFill: "#fff",
                pointHighlightStroke: "rgba(0, 191, 255,1)",
-               data: [0]
+               data: []
                }, {
                label: "Third",
                fillColor: "rgba(151,187,205,0.2)",
@@ -32,7 +32,16 @@ function createGraph() {
                pointStrokeColor: "#fff",
                pointHighlightFill: "#fff",
                pointHighlightStroke: "rgba(151,187,205,1)",
-               data: [0]
+               data: []
+               }, {
+                label: "Forth",
+               fillColor: "rgba(255, 255, 0,0.2)",
+               strokeColor: "rgba(255, 255, 0,1)",
+               pointColor: "rgba(255, 255, 0,1)",
+               pointStrokeColor: "#fff",
+               pointHighlightFill: "#fff",
+               pointHighlightStroke: "rgba(255, 255, 0,1)",
+               data: []
                }]
     };
     
@@ -124,7 +133,31 @@ function createGraph() {
                           }
                           }
                           chart.update();
-                          }   
+                          } 
+        function dis(){
+                          var label = 'Forth';
+                          var chart = window.lineChart;
+                          var store = chart.store;
+                          var finded = false;
+                          for (var i = 0; i < store.length; i++) {
+                          console.log("Store name " + store[i][2]);
+                          if (store[i][0] === label) {
+                          finded = true;
+                          var restored = store.splice(i, 1)[0][1];
+                          chart.datasets.push(restored);
+                          }
+                          }
+                          
+                          if (!finded) {
+                          console.log('Start search dataset with label = ' + label);
+                          for (var i = 0; i < chart.datasets.length; i++) {
+                          if (chart.datasets[i].label === label) {
+                          chart.store.push([label, chart.datasets.splice(i, 1)[0]]);
+                          }
+                          }
+                          }
+                          chart.update();
+                          }     
 // }
 
 //------------------Attention Brian------------------
@@ -133,47 +166,19 @@ function addDataToChart(aPoint){
     var dist = 0.0;
     var rat = 0.0;
     var acc = 0.0;
+    var pos = 0.0;
     
     
     
 
    distancePoints.push(this.aPoint);
-   // var  num_dis_points = distancePoints.length;
-   //  if (num_dis_points>0) {        // once we have atleast 2 lat long we can get a distance
-       
-   //      dist=distancePoints[num_dis_points-1].info()[1];
-   //      total_distance = total_distance+dist;
-   //      distance.push(total_distance);
-
-   //      if (num_dis_points>1) {
-   //          rat = dv_dt(distancePoints[num_dis_points-1],distancePoints[num_dis_points-2]);
-   //          rate.push(rat);
-   //          ratePoints.push(new point(num_dis_points-2,rat));
-   //          var  num_rate_points = ratePoints.length;
-            
-   //      }else{
-   //        rate.push(0);
-   //        ratePoints.push(new point(num_dis_points-1,0));
-
-   //      };
-   //      if (num_dis_points>2) {
-   //              acc =dv_dt(ratePoints[num_rate_points-1],ratePoints[num_rate_points-2]);
-   //              acceleration.push(acc);
-   //              accelerationPoints.push(new point(num_rate_points-2,acc));
-                
-   //          }
-   //          else{
-   //            acceleration.push(0);
-   //            accelerationPoints.push(new point(num_dis_points-2,0));
-   //          };
-        
-   //  };
+   
     
     var  num_dis_points = distancePoints.length;
     if (num_dis_points>0) {        // once we have atleast 2 lat long we can get a distance
        
         dist=distancePoints[num_dis_points-1].info()[1];
-        total_distance = total_distance+dist;
+        total_distance = dist;
         distance.push(total_distance);
 
         if (num_dis_points>1) {
@@ -192,13 +197,40 @@ function addDataToChart(aPoint){
     };
 
     if (num_dis_points>2) {
-      lineChart.addData([distance[time+2],rate[time+1],acceleration[time]],time);
+      lineChart.addData([distance[time],rate[time],acceleration[time]],distancePoints[time].info()[0]);
     time = time+1;
     };
     
     
     
     
+}
+function reset(){
+  // if (lineChart.dataSets.length > 0) {
+            // REMOVE LATEST DATASET AND VALIDATE
+            time = 0;
+            window.lineChart.destroy();
+            createGraph();
+            
+
+            // GROWL
+            // growl("danger", dataset.title);
+         // } 
+         // else {
+
+        //     // GROWL
+        //     growl("info", "Kept latest");
+        // }
+// console.log(lineChart.datasets.length);
+// console.log(lineChart.datasets[0].length);
+//   for (var i = 0; i< lineChart.datasets.length; i++) {
+    
+//       lineChart.datasets.pop();
+    
+    
+//   };
+    
+    lineChart.update();
 }
 
 // this was just to test changing existing data on graph

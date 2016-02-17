@@ -17,11 +17,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"EmailComposer\"><param name=\"android-package\" value=\"de.martinreinhardt.cordova.plugins.email.EmailComposer\" /></feature>",
+                            "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+                            "xml": "<feature name=\"EmailComposer\"><param name=\"android-package\" value=\"de.martinreinhardt.cordova.plugins.email.EmailComposer\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -58,10 +58,10 @@
         "cordova-plugin-console": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-email": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-email": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
@@ -224,14 +224,6 @@
             "runs": true
         },
         {
-            "file": "plugins/cordova-plugin-email/www/email_composer.js",
-            "id": "cordova-plugin-email.EmailComposer",
-            "clobbers": [
-                "cordova.plugins.email",
-                "plugin.email"
-            ]
-        },
-        {
             "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
             "id": "cordova-plugin-geolocation.geolocation",
             "clobbers": [
@@ -242,6 +234,14 @@
             "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
             "id": "cordova-plugin-geolocation.PositionError",
             "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-email/www/email_composer.js",
+            "id": "cordova-plugin-email.EmailComposer",
+            "clobbers": [
+                "cordova.plugins.email",
+                "plugin.email"
+            ]
         }
     ]
 }

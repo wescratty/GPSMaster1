@@ -57,6 +57,8 @@ FileSystemHelper.prototype = {
 		fileSystem.root.getFile(fileName, options,
 								function(fileEntry) {
 									that._createFileWriter.call(that, fileEntry, text, onSuccess, onError);
+
+
 								},
 								function (error) {
 									error.message = "Failed creating file.";
@@ -65,34 +67,15 @@ FileSystemHelper.prototype = {
 	},
 
 
-
-
-
-	// _copyFile: function(fileSystem, fileName, text, onSuccess, onError) {
-	// 	var that = this;
-	// 	var options = {
-	// 		create: true, 
-	// 		exclusive: false
-	// 	};
-
-	// 	fileEntry.copyTo(fileName, options,
-	// 					function(fileEntry){
-	// 							that._createFileWriter.call(that, fileEntry, text, onSuccess, onError);
- //                                },
-	// 							function (error) {
-	// 								error.message = "Failed coping file.";
-	// 								onError.call(that, error);
-	// 							});
-        
-	// },
     
 	_createFileWriter: function(fileEntry, text, onSuccess, onError) {
 		var that = this;
 		fileEntry.createWriter(function(fileWriter) {
+			console.log(fileEntry.fullPath);
                                     var len = fileWriter.length;
                                     fileWriter.seek(len);
                                     fileWriter.write(text + '\n');
-                                    var message = "Wrote: " + text;
+                                    var message = "Wrote to file " ;
                                     onSuccess.call(that, message);
                                 },
                     			function(error) {
@@ -136,7 +119,7 @@ FileSystemHelper.prototype = {
 		fileEntry.file(
 			function(file) { 
 				that._getFileReader.call(that, file, onSuccess);
-				console.log(file);
+				// console.log(file);
 			},
 			function(error) {
 				error.message = "Unable to get file for reading.";
@@ -149,7 +132,9 @@ FileSystemHelper.prototype = {
 		var reader = new FileReader();
 		reader.onloadend = function(evt) { 
 			var textToWrite = evt.target.result;
-			tryEmail(textToWrite);
+			console.log("isAvailable2");
+			loadCSVString(textToWrite);
+			console.log("isAvailable3");
 			onSuccess.call(that, textToWrite);
 		};
         
@@ -193,49 +178,3 @@ FileSystemHelper.prototype = {
                 		});
 	}
 };
-
-
-
-
-
-
-
-
-
-function readSingleFile(e) {
-  var file = e.target.files[0];
-  if (!file) {
-    return;
-  }
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var contents = e.target.result;
-    displayContents(contents);
-  };
-  reader.readAsText(file);
-}
-
-function displayContents(contents) {
-  var element = document.getElementById('file-content');
-  element.innerHTML = contents;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

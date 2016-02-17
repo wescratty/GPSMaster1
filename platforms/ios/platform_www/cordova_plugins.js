@@ -190,15 +190,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-email/www/email_composer.js",
-        "id": "cordova-plugin-email.EmailComposer",
-        "pluginId": "cordova-plugin-email",
-        "clobbers": [
-            "cordova.plugins.email",
-            "plugin.email"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
         "id": "cordova-plugin-geolocation.Coordinates",
         "pluginId": "cordova-plugin-geolocation",
@@ -228,6 +219,15 @@ module.exports = [
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "navigator.geolocation"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-email/www/email_composer.js",
+        "id": "cordova-plugin-email.EmailComposer",
+        "pluginId": "cordova-plugin-email",
+        "clobbers": [
+            "cordova.plugins.email",
+            "plugin.email"
         ]
     }
 ];

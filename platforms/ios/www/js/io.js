@@ -119,7 +119,7 @@ FileSystemHelper.prototype = {
 		fileEntry.file(
 			function(file) { 
 				that._getFileReader.call(that, file, onSuccess);
-				console.log(file);
+				// console.log(file);
 			},
 			function(error) {
 				error.message = "Unable to get file for reading.";
@@ -132,7 +132,9 @@ FileSystemHelper.prototype = {
 		var reader = new FileReader();
 		reader.onloadend = function(evt) { 
 			var textToWrite = evt.target.result;
-			tryEmail(textToWrite);
+			console.log("isAvailable2");
+			loadCSVString(textToWrite);
+			console.log("isAvailable3");
 			onSuccess.call(that, textToWrite);
 		};
         

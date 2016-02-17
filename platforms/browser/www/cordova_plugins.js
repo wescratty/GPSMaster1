@@ -195,8 +195,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.1",
     "cordova-plugin-file": "4.1.1",
     "cordova-plugin-console": "1.0.2",
-    "cordova-plugin-email": "1.1.0",
-    "cordova-plugin-geolocation": "2.1.0"
+    "cordova-plugin-geolocation": "2.1.0",
+    "cordova-plugin-email": "1.1.0"
 }
 // BOTTOM OF METADATA
 });

@@ -9,11 +9,13 @@
         <param name="android-package" value="org.apache.cordova.file.FileUtils" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="EmailComposer">
-        <param name="android-package" value="de.martinreinhardt.cordova.plugins.email.EmailComposer" />
-    </feature>
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" />
+    <preference name="Orientation" value="sensorLandscape" />
+    <feature name="EmailComposer">
+        <param name="android-package" value="de.martinreinhardt.cordova.plugins.email.EmailComposer" />
     </feature>
     <allow-intent href="market:*" />
     <name>HelloCordova</name>
@@ -24,6 +26,7 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+    <gap:plugin name="de.killercodemonkey.cordova.plugin.email-composer" version="0.8.2" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -31,7 +34,6 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" />
     <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
     <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root" />
     <preference name="useBrowserHistory" value="false" />

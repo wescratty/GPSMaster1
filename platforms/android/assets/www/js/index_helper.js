@@ -11,6 +11,8 @@ var coorPoints = [];
 var non_lat_long_Points = [];
 var distancePoints = [];
 var accelerationPoints = [];
+var positionPoints = [];
+
 var ratePoints = [];
 var total_distance = 0;
 
@@ -19,59 +21,54 @@ var canvas;
 var ctx;
 var logOb;
 
+var distance = [];
+var rate = [];
+var acceleration = [];
+
 
 
 // this is x^3
 var testdata = [
-                [ 0 ,  0 ],
-                [ 1 ,  1 ],
-                [ 2 ,  8 ],
-                [ 3 ,  27 ],
-                [ 4 ,  64 ],
-                [ 5 ,  125 ],
-                [ 6 ,  216 ],
-                [ 7 ,  343 ],
-                [ 8 ,  512 ],
-                [ 9 ,  729 ],
-                [ 10 ,  1000 ],
-                [ 11 ,  1331 ],
-                [ 12 ,  1728 ],
-                [ 13 ,  2197 ],
-                [ 14 ,  2744 ],
-                [ 15 ,  3375 ],
-                [ 16 ,  4096 ],
-                [ 17 ,  4913 ],
-                [ 18 ,  5832 ],
-                [ 19 ,  6859 ],
-                [ 20 ,  8000 ]
+[ 0 ,  0 ],
+[ 1 ,  0.258819 ],
+[ 2 ,  0.5 ],
+[ 3 ,  0.7071068 ],
+[ 4 ,  0.8660254 ],
+[ 5 ,  0.9659258 ],
+[ 6 ,  1 ],
+[ 7 ,  0.9659258 ],
+[ 8 ,  0.8660254 ],
+[ 9 ,  0.7071068 ],
+[ 10 ,  0.5 ],
+[ 11 ,  0.258819 ],
+[ 12 ,  0.0 ],
+[ 13 ,  -0.258819 ],
+[ 14 ,  -0.5 ],
+[ 15 ,  -0.7071068 ],
+[ 16 ,  -0.8660254 ],
+[ 17 ,  -0.9659258 ],
+[ 18 ,  -1 ],
+[ 19 ,  -0.9659258 ],
+[ 20 ,  -0.8660254 ],
+[ 21 ,  -0.7071068 ],
+[ 22 ,  -0.5 ],
+[ 23 ,  -0.258819 ],
+[ 24 ,  0.0 ]
                 ];
 
 
 const METERTOFEET = 3.28084;
 const K_MILL_SEC = 1000;
 
-//
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("touchstart", function() {}, false);
-//
-// $.getScript('/io.js', function()
-//{
-document.getElementById('file-input')
-.addEventListener('change', readSingleFile, false);
-//});
-
-
-
-
 
 
 function onDeviceReady() {
-    //
+  
     
     createGraph();
     
-    
-    navigator.splashscreen.hide();
     var fileApp = new FileApp();
     fileApp.run();
     
@@ -89,6 +86,14 @@ function startLocationPoints(){
 }
 
 function load_test_data(){
+
+
+    // console.log(dv_dt(new point(3,20),new point(0,0)));
+    //  console.log("\n");
+    // console.log(dv_dt(new point(6,33),new point(3,20)));
+    // console.log("\n");
+    // console.log(dv_dt(new point(9,43),new point(6,33)));
+
     for (var i = 0;i< testdata.length;i++) {
         var temp_arr = testdata[i];
         var a_point = new point(temp_arr[0],temp_arr[1])
@@ -107,28 +112,28 @@ function getNew(){
 
 
 function onSuccess(position) {
-    $.getScript('/graph.js', function()
-                {
+   
+    
                 buildLatLonPoints(getGeoPosition(position));
                 var len = coorPoints.length;
                 if (len>1) {
                 var dis_point = new point(time, coorPoints_to_distance(len-1));
                 addDataToChart(dis_point);
                 };
-                });
     
     
     
-    var element = document.getElementById('geolocation');
-    element.innerHTML =
-    'Latitude: '           + position.coords.latitude              + '<br />' +
-    'Longitude: '          + position.coords.longitude             + '<br />' +
-    'Altitude: '           + position.coords.altitude*METERTOFEET  + '<br />' +
-    'Accuracy: '           + position.coords.accuracy              + '<br />' +
-    'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-    'Heading: '            + position.coords.heading               + '<br />' +
-    'Speed: '              + position.coords.speed*METERTOFEET     + '<br />' +
-    'Timestamp: '          + position.timestamp                    + '<br />';
+    
+    // var element = document.getElementById('geolocation');
+    // element.innerHTML =
+    // 'Latitude: '           + position.coords.latitude              + '<br />' +
+    // 'Longitude: '          + position.coords.longitude             + '<br />' +
+    // 'Altitude: '           + position.coords.altitude*METERTOFEET  + '<br />' +
+    // 'Accuracy: '           + position.coords.accuracy              + '<br />' +
+    // 'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+    // 'Heading: '            + position.coords.heading               + '<br />' +
+    // 'Speed: '              + position.coords.speed*METERTOFEET     + '<br />' +
+    // 'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
 
@@ -182,7 +187,7 @@ function sendCSV(){
     
     
     
-    // var snd = new Audio("notify.wav"); // buffers automatically when created
+    // var snd = new Audio("/resources/notify.wav"); // buffers automatically when created
     // snd.play();
 }
 
@@ -219,43 +224,93 @@ function goToMail_out(){
     
 }
 
+// function makeCSVString(an_array){
+//     var temp ;
+//     var dat = an_array[0];
+//         temp = "["+dat.info()[0]+","+dat.info()[1]+"]"+"~";
+
+//     for (var i = 1; i< an_array.length; i++) {
+//         dat = an_array[i];
+//         temp = temp+"["+dat.info()[0]+","+dat.info()[1]+"]"+"~";
+//     }
+    
+//     return temp;
+    
+// }
 function makeCSVString(an_array){
-    var temp;
-    for (var i = 0; i< an_array.length; i++) {
-        var dat = an_array[i];
-        temp = temp+dat.info()[0]+", "+dat.info()[1]+"%0D%0A";
+    var temp ;
+    var dat = an_array[0];
+        temp = dat.info()[1]+"~";
+
+    for (var i = 1; i< an_array.length; i++) {
+        dat = an_array[i];
+        temp = temp+dat.info()[1]+"~";
     }
     
-    return temp+"%0D%0A"+"%0D%0A";
+    return temp;
+    
+}
+function loadCSVString(aString){
+    var strArr = aString.split(/~/);
+    var tempArr = []
+    for (var i = 0; i < strArr.length; i++) {
+        tempArr[i]= [i,strArr[i]];
+    };
+
+    testdata = tempArr;
+}
+
+
+
+function tryEmail(){
+
+    cordova.plugin.email.open();
+//     console.log("isAvailable1");
+//      var message = makeCSVString(testdata);
+//     cordova.plugins.email.open({
+//     to:      'max@mustermann.de',
+//     cc:      'erika@mustermann.de',
+//     bcc:     ['john@doe.com', 'jane@doe.com'],
+//     subject: 'Greetings',
+//     body:    message,
+//     attachments:     ['file://resources/data.csv']
+// });
+
+
+
+  //   cordova.plugins.email.isAvailable(
+  //         function (isAvailable) {
+  //         // alert('Service is not available') unless isAvailable;
+  //         console.log("isAvailable1");
+          
+  //         cordova.plugins.email.open({
+  //            to:      ['person@gmail.com'],
+  //            cc:      [''],
+  //            bcc:     [],
+  //            subject: 'Cordova data',
+  //            body:    this.the_message,
+  //            attachments:
+  //            ['file://resources/data.csv']
+  //            // 'file://img/logo.png', //=> assets/www/img/logo.png (Android)
+  //            // 'file://css/index.css' //=> www/css/index.css (iOS)
+                                     
+  //           },function(error) {
+  //                                   error.message = "Unable to email.";
+  //                                   onError.call(that, error);
+                                                        
+  //       });
+  // }
+  // );
     
 }
 
 
-function tryEmail(the_message){
-    this.the_message = the_message;
-    cordova.plugins.email.isAvailable(
-                                      function (isAvailable) {
-                                      // alert('Service is not available') unless isAvailable;
-                                      console.log("isAvailable1");
-                                      
-                                      cordova.plugins.email.open({
-                                                                 to:      'person@gmail.com',
-                                                                 cc:      '',
-                                                                 bcc:     [],
-                                                                 subject: 'Cordova data',
-                                                                 body:    this.the_message,
-                                                                 attachments:
-                                                                 'file://css/index.css'
-                                                                 // 'file://img/logo.png', //=> assets/www/img/logo.png (Android)
-                                                                 // 'file://css/index.css' //=> www/css/index.css (iOS)
-                                                                 
-                                                                 
-                                                                 });
-                                      }
-                                      );
-    
-}
+function parseFile(aString){
+    var str = aString;
 
+
+
+}
 
 
 function FileApp() {
@@ -284,6 +339,7 @@ run: function() {
     writeFileButton.addEventListener("click",
                                      function() {
                                      that._writeTextToFile.call(that);
+
                                      });
     
     readFileButton.addEventListener("click",
@@ -329,9 +385,12 @@ _readTextFromFile: function() {
     
 _writeTextToFile: function() {
     var that = this,
-    fileName = that.fileNameField.value,
-    text = "Distance"+"%0D%0A"+makeCSVString(distancePoints)+"Volocity"+"%0D%0A"+makeCSVString(ratePoints)+"Acceleration"+"%0D%0A"+makeCSVString(accelerationPoints);
+     fileName = that.fileNameField.value,
+    text = makeCSVString(distancePoints);
     // text = that.textField.value;
+    console.log(fileName);
+
+
     
     if (that._isValidFileName(fileName)) {
         fileSystemHelper.writeLine(fileName, text, that._onSuccess, that._onError)

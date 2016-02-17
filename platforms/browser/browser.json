@@ -22,10 +22,10 @@
         "cordova-plugin-console": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-email": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-email": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
@@ -224,7 +224,7 @@
         "cordova-plugin-whitelist": "1.2.1",
         "cordova-plugin-file": "4.1.1",
         "cordova-plugin-console": "1.0.2",
-        "cordova-plugin-email": "1.1.0",
-        "cordova-plugin-geolocation": "2.1.0"
+        "cordova-plugin-geolocation": "2.1.0",
+        "cordova-plugin-email": "1.1.0"
     }
 }

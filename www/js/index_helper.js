@@ -86,7 +86,7 @@ function startLocationPoints(){
 }
 
 function load_test_data(){
-    
+
 
     // console.log(dv_dt(new point(3,20),new point(0,0)));
     //  console.log("\n");
@@ -124,16 +124,16 @@ function onSuccess(position) {
     
     
     
-    var element = document.getElementById('geolocation');
-    element.innerHTML =
-    'Latitude: '           + position.coords.latitude              + '<br />' +
-    'Longitude: '          + position.coords.longitude             + '<br />' +
-    'Altitude: '           + position.coords.altitude*METERTOFEET  + '<br />' +
-    'Accuracy: '           + position.coords.accuracy              + '<br />' +
-    'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-    'Heading: '            + position.coords.heading               + '<br />' +
-    'Speed: '              + position.coords.speed*METERTOFEET     + '<br />' +
-    'Timestamp: '          + position.timestamp                    + '<br />';
+    // var element = document.getElementById('geolocation');
+    // element.innerHTML =
+    // 'Latitude: '           + position.coords.latitude              + '<br />' +
+    // 'Longitude: '          + position.coords.longitude             + '<br />' +
+    // 'Altitude: '           + position.coords.altitude*METERTOFEET  + '<br />' +
+    // 'Accuracy: '           + position.coords.accuracy              + '<br />' +
+    // 'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+    // 'Heading: '            + position.coords.heading               + '<br />' +
+    // 'Speed: '              + position.coords.speed*METERTOFEET     + '<br />' +
+    // 'Timestamp: '          + position.timestamp                    + '<br />';
 }
 
 
@@ -224,43 +224,93 @@ function goToMail_out(){
     
 }
 
+// function makeCSVString(an_array){
+//     var temp ;
+//     var dat = an_array[0];
+//         temp = "["+dat.info()[0]+","+dat.info()[1]+"]"+"~";
+
+//     for (var i = 1; i< an_array.length; i++) {
+//         dat = an_array[i];
+//         temp = temp+"["+dat.info()[0]+","+dat.info()[1]+"]"+"~";
+//     }
+    
+//     return temp;
+    
+// }
 function makeCSVString(an_array){
-    var temp;
-    for (var i = 0; i< an_array.length; i++) {
-        var dat = an_array[i];
-        temp = temp+dat.info()[0]+", "+dat.info()[1]+"\n\r\n";
+    var temp ;
+    var dat = an_array[0];
+        temp = dat.info()[1]+"~";
+
+    for (var i = 1; i< an_array.length; i++) {
+        dat = an_array[i];
+        temp = temp+dat.info()[1]+"~";
     }
     
-    return temp+"\n\r\n";
+    return temp;
     
+}
+function loadCSVString(aString){
+    var strArr = aString.split(/~/);
+    var tempArr = []
+    for (var i = 0; i < strArr.length; i++) {
+        tempArr[i]= [i,strArr[i]];
+    };
+
+    testdata = tempArr;
 }
 
 
-function tryEmail(the_message){
-    this.the_message = the_message;
-    cordova.plugins.email.isAvailable(
-          function (isAvailable) {
-          // alert('Service is not available') unless isAvailable;
-          console.log("isAvailable1");
+
+function tryEmail(){
+
+    cordova.plugin.email.open();
+//     console.log("isAvailable1");
+//      var message = makeCSVString(testdata);
+//     cordova.plugins.email.open({
+//     to:      'max@mustermann.de',
+//     cc:      'erika@mustermann.de',
+//     bcc:     ['john@doe.com', 'jane@doe.com'],
+//     subject: 'Greetings',
+//     body:    message,
+//     attachments:     ['file://resources/data.csv']
+// });
+
+
+
+  //   cordova.plugins.email.isAvailable(
+  //         function (isAvailable) {
+  //         // alert('Service is not available') unless isAvailable;
+  //         console.log("isAvailable1");
           
-          cordova.plugins.email.open({
-             to:      'person@gmail.com',
-             cc:      '',
-             bcc:     [],
-             subject: 'Cordova data',
-             body:    this.the_message,
-             attachments:
-             'file://resources/data.csv'
-             // 'file://img/logo.png', //=> assets/www/img/logo.png (Android)
-             // 'file://css/index.css' //=> www/css/index.css (iOS)
+  //         cordova.plugins.email.open({
+  //            to:      ['person@gmail.com'],
+  //            cc:      [''],
+  //            bcc:     [],
+  //            subject: 'Cordova data',
+  //            body:    this.the_message,
+  //            attachments:
+  //            ['file://resources/data.csv']
+  //            // 'file://img/logo.png', //=> assets/www/img/logo.png (Android)
+  //            // 'file://css/index.css' //=> www/css/index.css (iOS)
                                      
-                                     
-        });
-  }
-  );
+  //           },function(error) {
+  //                                   error.message = "Unable to email.";
+  //                                   onError.call(that, error);
+                                                        
+  //       });
+  // }
+  // );
     
 }
 
+
+function parseFile(aString){
+    var str = aString;
+
+
+
+}
 
 
 function FileApp() {
@@ -336,7 +386,7 @@ _readTextFromFile: function() {
 _writeTextToFile: function() {
     var that = this,
      fileName = that.fileNameField.value,
-    text = "Distance"+"\n"+makeCSVString(distancePoints)+"Volocity"+"\n"+makeCSVString(ratePoints)+"Acceleration"+"\n"+makeCSVString(accelerationPoints);
+    text = makeCSVString(distancePoints);
     // text = that.textField.value;
     console.log(fileName);
 

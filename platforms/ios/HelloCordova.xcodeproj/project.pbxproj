@@ -17,9 +17,9 @@
 		90BB9F6D63AA4CE6A9763B52 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A2C5E300D44AD98C03727 /* CDVAssetLibraryFilesystem.m */; };
 		CAED64DC40F340598D5F2E9E /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BDD6074E1642A2883E1AE4 /* CDVLogger.m */; };
 		FC8F9E77A931440694A64684 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B960F8CF21D45EDBF671D01 /* CDVFile.m */; };
-		E28806A73AA4472797F81E85 /* APPEmailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = 405A5F6EDC824293B1E31200 /* APPEmailComposer.m */; };
 		BF7B1F1146A840B5A80165DD /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AD6E3028ED4AD8B3F039AC /* CDVLocation.m */; };
 		0B933E675DEB467DA7C4859C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87059327B28E4E1A8C7A0A2B /* CoreLocation.framework */; };
+		24BE34FF326247D58194CE62 /* APPEmailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = 097528FB76BF4D4993EC6C2D /* APPEmailComposer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,11 +68,11 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = HelloCordova/config.xml; sourceTree = "<group>"; };
-		405A5F6EDC824293B1E31200 /* APPEmailComposer.m */ = {isa = PBXFileReference; name = "APPEmailComposer.m"; path = "cordova-plugin-email/APPEmailComposer.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		F2F51D0A55DF495A8123490F /* APPEmailComposer.h */ = {isa = PBXFileReference; name = "APPEmailComposer.h"; path = "cordova-plugin-email/APPEmailComposer.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		E9AD6E3028ED4AD8B3F039AC /* CDVLocation.m */ = {isa = PBXFileReference; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		F4B050D6F55740A4AC6CFD5C /* CDVLocation.h */ = {isa = PBXFileReference; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		87059327B28E4E1A8C7A0A2B /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		097528FB76BF4D4993EC6C2D /* APPEmailComposer.m */ = {isa = PBXFileReference; name = "APPEmailComposer.m"; path = "cordova-plugin-email/APPEmailComposer.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		C2C9BED830794E95B9B311E6 /* APPEmailComposer.h */ = {isa = PBXFileReference; name = "APPEmailComposer.h"; path = "cordova-plugin-email/APPEmailComposer.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,10 +187,10 @@
 				839F5891392948E687C1A21E /* CDVAssetLibraryFilesystem.h */,
 				A7BDD6074E1642A2883E1AE4 /* CDVLogger.m */,
 				22037B4A1DDC40509E1F8A8E /* CDVLogger.h */,
-				405A5F6EDC824293B1E31200 /* APPEmailComposer.m */,
-				F2F51D0A55DF495A8123490F /* APPEmailComposer.h */,
 				E9AD6E3028ED4AD8B3F039AC /* CDVLocation.m */,
 				F4B050D6F55740A4AC6CFD5C /* CDVLocation.h */,
+				097528FB76BF4D4993EC6C2D /* APPEmailComposer.m */,
+				C2C9BED830794E95B9B311E6 /* APPEmailComposer.h */,
 			);
 			name = Plugins;
 			path = HelloCordova/Plugins;
@@ -309,8 +309,8 @@
 				030A538FD0084A73BC2BC978 /* CDVLocalFilesystem.m in Sources */,
 				90BB9F6D63AA4CE6A9763B52 /* CDVAssetLibraryFilesystem.m in Sources */,
 				CAED64DC40F340598D5F2E9E /* CDVLogger.m in Sources */,
-				E28806A73AA4472797F81E85 /* APPEmailComposer.m in Sources */,
 				BF7B1F1146A840B5A80165DD /* CDVLocation.m in Sources */,
+				24BE34FF326247D58194CE62 /* APPEmailComposer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

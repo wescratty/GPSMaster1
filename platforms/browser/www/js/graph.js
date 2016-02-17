@@ -208,6 +208,7 @@ function addDataToChart(aPoint){
 function reset(){
   // if (lineChart.dataSets.length > 0) {
             // REMOVE LATEST DATASET AND VALIDATE
+            time = 0;
             window.lineChart.destroy();
             createGraph();
             

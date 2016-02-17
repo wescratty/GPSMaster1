@@ -16,10 +16,10 @@
         "cordova-plugin-console": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-email": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-email": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
